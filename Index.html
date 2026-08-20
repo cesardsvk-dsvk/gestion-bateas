@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Gestión de bateas</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#eef3f7;
+  color:#17212b;
+}
+
+header{
+  background:#073b5c;
+  color:white;
+  padding:14px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+header h1{
+  margin:0;
+  font-size:21px;
+}
+
+header small{
+  opacity:.8;
+}
+
+.container{
+  padding:12px;
+  max-width:1000px;
+  margin:auto;
+}
+
+button{
+  border:0;
+  border-radius:8px;
+  padding:10px 14px;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.primary{
+  background:#087fbd;
+  color:white;
+}
+
+.secondary{
+  background:#dce7ee;
+  color:#17384b;
+}
+
+.danger{
+  background:#c0392b;
+  color:white;
+}
+
+.card{
+  background:white;
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+  box-shadow:0 2px 8px #0001;
+}
+
+h2,h3{
+  margin-top:0;
+}
+
+.bateas{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+
+.batea{
+  background:#dbeaf2;
+  border-radius:9px;
+  padding:13px 5px;
+  text-align:center;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.batea:hover{
+  background:#b9d9e8;
+}
+
+.batea.activa{
+  background:#087fbd;
+  color:white;
+}
+
+.toolbar{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.config{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+select,input,textarea{
+  border:1px solid #b8c5ce;
+  border-radius:7px;
+  padding:9px;
+  font-size:15px;
+}
+
+textarea{
+  width:100%;
+  min-height:70px;
+}
+
+.grid-wrapper{
+  overflow:auto;
+  background:#d7e1e7;
+  border-radius:10px;
+  padding:8px;
+}
+
+.grid{
+  display:grid;
+  gap:3px;
+  min-width:500px;
+}
+
+.cell{
+  min-height:42px;
+  border:1px solid #9eabb3;
+  background:#f8fbfc;
+  border-radius:4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  cursor:pointer;
+  user-select:none;
+}
+
+.cell:hover{
+  border:2px solid #087fbd;
+}
+
+.cell.pintada{
+  background:#4aa3df;
+  color:white;
+  border-color:#287cae;
+  font-weight:bold;
+}
+
+.cell.cabecera{
+  background:#607d8b;
+  color:white;
+  font-weight:bold;
+  cursor:default;
+}
+
+.info{
+  font-size:14px;
+  color:#50616c;
+}
+
+.lotes{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.lote{
+  border-left:7px solid #087fbd;
+  background:#f5f8fa;
+  padding:10px;
+  border-radius:7px;
+}
+
+.hidden{
+  display:none;
+}
+
+.row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:8px;
+}
+
+.row>*{
+  flex:1;
+  min-width:130px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  margin-bottom:4px;
+  color:#52636e;
+}
+
+.status{
+  padding:8px;
+  background:#e8f4e8;
+  color:#28733b;
+  border-radius:7px;
+  font-size:13px;
+  margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>⚓ Gestión de bateas</h1>
+  <small>Control de producción y siembra</small>
+</header>
+
+<div class="container">
+
+  <div id="inicio">
+
+    <div class="card">
+      <h2>Mis bateas</h2>
+      <div class="status">✓ Los datos se guardan automáticamente en este dispositivo</div>
+      <div class="bateas" id="listaBateas"></div>
+    </div>
+
+  </div>
+
+
+  <div id="ficha" class="hidden">
+
+    <div class="toolbar">
+      <button class="secondary" onclick="volver()">← Bateas</button>
+      <button class="primary" onclick="guardar()">Guardar</button>
+    </div>
+
+    <div class="card">
+      <h2 id="tituloBatea">Batea</h2>
+
+      <div class="config">
+
+        <label>
+          Configuración
+          <select id="configuracion" onchange="cambiarConfiguracion()">
+            <option value="10x7">10 x 7</option>
+            <option value="9x7">9 x 7</option>
+          </select>
+        </label>
+
+        <button class="secondary" onclick="limpiarBatea()">
+          Limpiar
+        </button>
+
+      </div>
+
+      <p class="info">
+        Toca una celda para pintar o despintar un tramo.
+      </p>
+
+      <div class="grid-wrapper">
+        <div id="grid" class="grid"></div>
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>Nuevo lote</h3>
+
+      <div class="row">
+
+        <div>
+          <label>Fecha</label>
+          <input type="date" id="fecha">
+        </div>
+
+        <div>
+          <label>Procedencia</label>
+          <input type="text" id="procedencia"
+                 placeholder="Ej. Cambados">
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div>
+          <label>Nº de cuerdas</label>
+          <input type="number" id="cuerdas"
+                 placeholder="Ej. 100">
+        </div>
+
+        <div>
+          <label>Color</label>
+          <input type="color" id="color" value="#4aa3df">
+        </div>
+
+      </div>
+
+      <label>Nota</label>
+      <textarea id="nota"
+        placeholder="Observaciones del lote..."></textarea>
+
+      <br><br>
+
+      <button class="primary" onclick="guardarLote()">
+        Añadir lote
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>Lotes de esta batea</h3>
+
+      <div id="lotes" class="lotes"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const TOTAL_BATEAS = 27;
+
+let datos = JSON.parse(
+  localStorage.getItem("gestionBateas")
+) || {};
+
+let bateaActual = null;
+
+
+/* =========================
+   INICIO
+========================= */
+
+function iniciar(){
+
+  const lista = document.getElementById("listaBateas");
+
+  lista.innerHTML = "";
+
+  for(let i=1;i<=TOTAL_BATEAS;i++){
+
+    const boton = document.createElement("div");
+
+    boton.className = "batea";
+
+    boton.textContent = "Batea " + i;
+
+    boton.onclick = function(){
+      abrirBatea(i);
+    };
+
+    lista.appendChild(boton);
+  }
+
+}
+
+
+/* =========================
+   ABRIR BATEA
+========================= */
+
+function abrirBatea(numero){
+
+  bateaActual = numero;
+
+  if(!datos[numero]){
+
+    datos[numero] = {
+      configuracion:"10x7",
+      celdas:[],
+      lotes:[]
+    };
+
+  }
+
+  document.getElementById("inicio")
+    .classList.add("hidden");
+
+  document.getElementById("ficha")
+    .classList.remove("hidden");
+
+  document.getElementById("tituloBatea").textContent =
+    "Batea " + numero;
+
+  document.getElementById("configuracion").value =
+    datos[numero].configuracion || "10x7";
+
+  dibujarGrid();
+
+  mostrarLotes();
+
+}
+
+
+/* =========================
+   GRID
+========================= */
+
+function dibujarGrid(){
+
+  const grid = document.getElementById("grid");
+
+  const config =
+    document.getElementById("configuracion").value;
+
+  const partes = config.split("x");
+
+  const columnas = parseInt(partes[0]);
+  const filas = parseInt(partes[1]);
+
+  grid.innerHTML = "";
+
+  grid.style.gridTemplateColumns =
+    `repeat(${columnas},1fr)`;
+
+  for(let f=0;f<filas;f++){
+
+    for(let c=0;c<columnas;c++){
+
+      const celda = document.createElement("div");
+
+      celda.className = "cell";
+
+      const id = f + "-" + c;
+
+      celda.dataset.id = id;
+
+      if(
+        datos[bateaActual].celdas &&
+        datos[bateaActual].celdas.includes(id)
+      ){
+        celda.classList.add("pintada");
+        celda.textContent = "✓";
+      }
+
+      celda.onclick = function(){
+
+        pintarCelda(celda,id);
+
+      };
+
+      grid.appendChild(celda);
+
+    }
+
+  }
+
+}
+
+
+/* =========================
+   PINTAR CELDAS
+========================= */
+
+function pintarCelda(celda,id){
+
+  if(celda.classList.contains("pintada")){
+
+    celda.classList.remove("pintada");
+
+    celda.textContent = "";
+
+    datos[bateaActual].celdas =
+      datos[bateaActual].celdas.filter(
+        x => x !== id
+      );
+
+  }else{
+
+    celda.classList.add("pintada");
+
+    celda.textContent = "✓";
+
+    if(!datos[bateaActual].celdas){
+      datos[bateaActual].celdas=[];
+    }
+
+    datos[bateaActual].celdas.push(id);
+
+  }
+
+  guardar();
+
+}
+
+
+/* =========================
+   CONFIGURACION
+========================= */
+
+function cambiarConfiguracion(){
+
+  datos[bateaActual].configuracion =
+    document.getElementById("configuracion").value;
+
+  datos[bateaActual].celdas=[];
+
+  dibujarGrid();
+
+  guardar();
+
+}
+
+
+/* =========================
+   LIMPIAR
+========================= */
+
+function limpiarBatea(){
+
+  if(!confirm(
+    "¿Quieres borrar todos los tramos pintados?"
+  )) return;
+
+  datos[bateaActual].celdas=[];
+
+  dibujarGrid();
+
+  guardar();
+
+}
+
+
+/* =========================
+   LOTES
+========================= */
+
+function guardarLote(){
+
+  const fecha =
+    document.getElementById("fecha").value;
+
+  const procedencia =
+    document.getElementById("procedencia").value;
+
+  const cuerdas =
+    document.getElementById("cuerdas").value;
+
+  const color =
+    document.getElementById("color").value;
+
+  const nota =
+    document.getElementById("nota").value;
+
+  if(!fecha && !procedencia && !cuerdas && !nota){
+
+    alert("Introduce al menos algún dato del lote.");
+
+    return;
+
+  }
+
+  if(!datos[bateaActual].lotes){
+    datos[bateaActual].lotes=[];
+  }
+
+  datos[bateaActual].lotes.push({
+
+    fecha:fecha,
+
+    procedencia:procedencia,
+
+    cuerdas:cuerdas,
+
+    color:color,
+
+    nota:nota
+
+  });
+
+  document.getElementById("fecha").value="";
+
+  document.getElementById("procedencia").value="";
+
+  document.getElementById("cuerdas").value="";
+
+  document.getElementById("nota").value="";
+
+  mostrarLotes();
+
+  guardar();
+
+}
+
+
+/* =========================
+   MOSTRAR LOTES
+========================= */
+
+function mostrarLotes(){
+
+  const contenedor =
+    document.getElementById("lotes");
+
+  contenedor.innerHTML="";
+
+  const lotes =
+    datos[bateaActual].lotes || [];
+
+  if(lotes.length===0){
+
+    contenedor.innerHTML =
+      '<div class="info">Todavía no hay lotes registrados.</div>';
+
+    return;
+
+  }
+
+  lotes.forEach(function(lote,index){
+
+    const div =
+      document.createElement("div");
+
+    div.className="lote";
+
+    div.style.borderLeftColor =
+      lote.color || "#087fbd";
+
+    div.innerHTML = `
+
+      <strong>Lote ${index+1}</strong><br>
+
+      ${lote.fecha ?
+        "📅 "+lote.fecha+"<br>" : ""}
+
+      ${lote.procedencia ?
+        "📍 Procedencia: "+
+        escapar(lote.procedencia)+"<br>" : ""}
+
+      ${lote.cuerdas ?
+        "🪢 Cuerdas: "+
+        escapar(lote.cuerdas)+"<br>" : ""}
+
+      ${lote.nota ?
+        "📝 "+escapar(lote.nota)+"<br>" : ""}
+
+      <br>
+
+      <button class="danger"
+        onclick="borrarLote(${index})">
+        Borrar lote
+      </button>
+
+    `;
+
+    contenedor.appendChild(div);
+
+  });
+
+}
+
+
+/* =========================
+   BORRAR LOTE
+========================= */
+
+function borrarLote(index){
+
+  if(!confirm("¿Borrar este lote?")) return;
+
+  datos[bateaActual].lotes.splice(index,1);
+
+  mostrarLotes();
+
+  guardar();
+
+}
+
+
+/* =========================
+   GUARDAR
+========================= */
+
+function guardar(){
+
+  localStorage.setItem(
+    "gestionBateas",
+    JSON.stringify(datos)
+  );
+
+}
+
+
+/* =========================
+   VOLVER
+========================= */
+
+function volver(){
+
+  guardar();
+
+  document.getElementById("ficha")
+    .classList.add("hidden");
+
+  document.getElementById("inicio")
+    .classList.remove("hidden");
+
+  bateaActual=null;
+
+}
+
+
+/* =========================
+   SEGURIDAD TEXTO
+========================= */
+
+function escapar(texto){
+
+  return String(texto)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;");
+
+}
+
+
+/* =========================
+   INICIAR
+========================= */
+
+iniciar();
+
+</script>
+
+</body>
+</html>
