@@ -2,11 +2,13 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gestión de bateas</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -16,274 +18,137 @@ body{
 }
 
 header{
-  background:#123b5d;
+  background:#17466b;
   color:white;
-  padding:16px;
-  position:sticky;
-  top:0;
-  z-index:20;
-  box-shadow:0 2px 6px #0003;
+  padding:18px 22px;
+  font-size:25px;
+  font-weight:bold;
 }
 
-header h1{
-  margin:0;
-  font-size:22px;
-}
-
-main{
-  max-width:1100px;
+.container{
+  max-width:1500px;
   margin:auto;
-  padding:15px;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+h1,h2,h3{
+  margin-top:0;
 }
 
 button{
   border:0;
-  border-radius:8px;
-  padding:11px 14px;
-  font-size:15px;
+  border-radius:10px;
+  padding:11px 16px;
+  font-size:16px;
   cursor:pointer;
-  background:#1769aa;
+  background:#1976b9;
   color:white;
 }
 
+button:hover{
+  opacity:.9;
+}
+
 button.secondary{
-  background:#607d8b;
+  background:#64748b;
 }
 
 button.danger{
-  background:#b3261e;
+  background:#c62828;
 }
 
-button.light{
-  background:#e2e8ed;
-  color:#17212b;
-}
-
-button:active{
-  transform:scale(.98);
+button.small{
+  padding:7px 10px;
+  font-size:14px;
 }
 
 input,select,textarea{
   width:100%;
   padding:10px;
-  border:1px solid #b8c3cc;
-  border-radius:7px;
-  font-size:15px;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  font-size:16px;
   background:white;
 }
 
 textarea{
-  min-height:120px;
+  min-height:130px;
   resize:vertical;
 }
 
-.card{
-  background:white;
-  border-radius:12px;
-  padding:15px;
-  margin-bottom:15px;
-  box-shadow:0 2px 8px #0001;
+label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:6px;
 }
 
-.card h2,.card h3{
-  margin-top:0;
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+  align-items:end;
 }
 
 .toolbar{
   display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
-
-.gridFiles{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:12px;
-}
-
-.fileCard{
-  background:white;
-  border:2px solid #d6dee5;
-  border-radius:12px;
-  padding:16px;
-  min-height:90px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  cursor:pointer;
-}
-
-.fileCard:hover{
-  border-color:#1769aa;
-}
-
-.fileName{
-  font-weight:bold;
-  font-size:18px;
-}
-
-.bateaGrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
   gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
 }
 
-.bateaCard{
+.search{
+  margin-bottom:18px;
+}
+
+.polygon-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:16px;
+}
+
+.polygon-card,
+.batea-card{
+  border:2px solid #d6e0e8;
+  border-radius:14px;
+  padding:18px;
   background:white;
-  border:2px solid #d6dee5;
-  border-radius:10px;
-  padding:14px;
   cursor:pointer;
-  text-align:center;
-  font-weight:bold;
 }
 
-.bateaCard:hover{
-  border-color:#1769aa;
+.polygon-card:hover,
+.batea-card:hover{
+  border-color:#1976b9;
+  transform:translateY(-1px);
+}
+
+.folder{
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+.muted{
+  color:#64748b;
 }
 
 .back{
-  margin-bottom:12px;
+  margin-bottom:15px;
 }
 
-.mapWrap{
-  overflow:auto;
-  padding:8px;
-  background:#d9e1e7;
-  border-radius:10px;
-}
-
-.bateaMap{
+.batea-grid{
   display:grid;
-  gap:2px;
-  width:max-content;
-  margin:auto;
-  background:#777;
-  border:2px solid #555;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:15px;
 }
 
-.cell{
-  min-width:34px;
-  min-height:34px;
-  background:white;
-  border:1px solid #777;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:11px;
-  user-select:none;
-  touch-action:manipulation;
-  cursor:pointer;
-}
-
-.cell.selected{
-  outline:3px solid #111;
-  outline-offset:-3px;
-  position:relative;
-  z-index:2;
-}
-
-.cell.empty{
-  background:#fff;
-}
-
-.cell.hasData{
-  color:#17212b;
-  font-weight:bold;
-}
-
-.selectionInfo{
-  padding:10px;
-  background:#e8f1f8;
-  border-radius:8px;
-  margin-top:10px;
-}
-
-.formGrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:12px;
-}
-
-.formGroup label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:5px;
-}
-
-.colorPalette{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:5px;
-}
-
-.colorChoice{
-  width:34px;
-  height:34px;
-  border-radius:7px;
-  border:3px solid transparent;
-  cursor:pointer;
-}
-
-.colorChoice.selected{
-  border-color:#111;
-  transform:scale(1.12);
-}
-
-.tableWrap{
-  overflow:auto;
-}
-
-table{
-  border-collapse:collapse;
-  width:100%;
-  min-width:650px;
-}
-
-th,td{
-  border:1px solid #c6d0d8;
-  padding:8px;
-  text-align:left;
-  background:white;
-}
-
-th{
-  background:#e5ebef;
-}
-
-.colorDot{
-  display:inline-block;
-  width:20px;
-  height:20px;
-  border-radius:4px;
-  vertical-align:middle;
-}
-
-.emptyMessage{
-  text-align:center;
-  padding:25px;
-  color:#65727c;
-}
-
-.hidden{
-  display:none !important;
-}
-
-.small{
-  font-size:13px;
-  color:#60717d;
-}
-
-.actions{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-  margin-top:12px;
-}
-
-.sectionTitle{
+.section-title{
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -291,26 +156,176 @@ th{
   flex-wrap:wrap;
 }
 
-@media(max-width:600px){
-  main{
-    padding:9px;
-  }
+.color-palette{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
 
+.color-option{
+  width:34px;
+  height:34px;
+  border-radius:7px;
+  border:3px solid white;
+  box-shadow:0 0 0 1px #9ca3af;
+  cursor:pointer;
+}
+
+.color-option.selected{
+  box-shadow:0 0 0 3px #111827;
+}
+
+.custom-color{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.custom-color input{
+  width:50px;
+  height:38px;
+  padding:2px;
+}
+
+.grid-wrap{
+  overflow:auto;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  background:#fff;
+  padding:10px;
+}
+
+.batea-map{
+  display:grid;
+  gap:2px;
+  min-width:500px;
+  background:#475569;
+  border:2px solid #334155;
+}
+
+.map-cell{
+  background:#f8fafc;
+  border:1px solid #64748b;
+  min-height:38px;
+  cursor:pointer;
+  position:relative;
+}
+
+.map-cell:hover{
+  outline:3px solid rgba(25,118,185,.35);
+  z-index:2;
+}
+
+.map-cell.selected-cell{
+  outline:3px solid #111827;
+  z-index:3;
+}
+
+.info-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:850px;
+}
+
+.table-wrap{
+  overflow:auto;
+}
+
+.info-table th,
+.info-table td{
+  border:1px solid #cbd5e1;
+  padding:8px;
+  vertical-align:middle;
+}
+
+.info-table th{
+  background:#e2e8f0;
+  text-align:left;
+}
+
+.info-table input{
+  min-width:100px;
+}
+
+.color-cell{
+  width:40px;
+  height:32px;
+  border-radius:6px;
+  border:1px solid #64748b;
+  cursor:pointer;
+}
+
+.total-box{
+  background:#e8f4fc;
+  border:2px solid #9ecce9;
+  border-radius:12px;
+  padding:15px;
+  margin-top:15px;
+}
+
+.total-main{
+  font-size:25px;
+  font-weight:bold;
+}
+
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;
+}
+
+.summary-item{
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  padding:12px;
+  background:#f8fafc;
+}
+
+.summary-color{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:bold;
+}
+
+.summary-swatch{
+  width:24px;
+  height:24px;
+  border-radius:5px;
+  border:1px solid #64748b;
+}
+
+.empty{
+  text-align:center;
+  color:#64748b;
+  padding:30px;
+}
+
+.notice{
+  padding:12px;
+  border-radius:8px;
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  margin-bottom:15px;
+}
+
+@media(max-width:700px){
   header{
-    padding:13px;
+    font-size:21px;
+    padding:15px;
   }
 
-  header h1{
-    font-size:19px;
+  .container{
+    padding:12px;
+  }
+
+  .card{
+    padding:14px;
   }
 
   button{
-    padding:10px 11px;
-  }
-
-  .cell{
-    min-width:31px;
-    min-height:31px;
+    font-size:15px;
   }
 }
 </style>
@@ -318,257 +333,15 @@ th{
 
 <body>
 
-<header>
-  <h1 id="headerTitle">Gestión de bateas</h1>
-</header>
+<header>Gestión de bateas</header>
 
-<main>
-
-<!-- PANTALLA POLÍGONOS -->
-<section id="screenPolygons">
-
-  <div class="card">
-    <div class="sectionTitle">
-      <div>
-        <h2>Polígonos de producción</h2>
-        <div class="small">Cada polígono contiene sus propias bateas.</div>
-      </div>
-      <button onclick="newPolygon()">+ Nuevo polígono</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <input id="polygonSearch"
-           type="search"
-           placeholder="Buscar polígono..."
-           oninput="renderPolygons()">
-  </div>
-
-  <div id="polygonList" class="gridFiles"></div>
-
-</section>
-
-
-<!-- PANTALLA BATEAS -->
-<section id="screenBateas" class="hidden">
-
-  <button class="secondary back" onclick="showPolygons()">← Polígonos</button>
-
-  <div class="card">
-    <div class="sectionTitle">
-      <div>
-        <h2 id="polygonTitle"></h2>
-        <div class="small">Archivo del polígono</div>
-      </div>
-
-      <div class="toolbar">
-        <button onclick="renamePolygon()">Renombrar</button>
-        <button class="danger" onclick="deletePolygon()">Eliminar</button>
-        <button onclick="newBatea()">+ Nueva batea</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <input id="bateaSearch"
-           type="search"
-           placeholder="Buscar batea..."
-           oninput="renderBateas()">
-  </div>
-
-  <div id="bateaList" class="bateaGrid"></div>
-
-</section>
-
-
-<!-- PANTALLA BATEA -->
-<section id="screenBatea" class="hidden">
-
-  <button class="secondary back" onclick="showBateas()">← Bateas</button>
-
-  <div class="card">
-
-    <div class="sectionTitle">
-      <div>
-        <h2 id="bateaTitle"></h2>
-        <div class="small">Mapa de la batea</div>
-      </div>
-
-      <div class="toolbar">
-        <button onclick="renameBatea()">Renombrar</button>
-        <button class="danger" onclick="deleteBatea()">Eliminar</button>
-      </div>
-    </div>
-
-  </div>
-
-
-  <!-- CONFIGURACIÓN -->
-  <div class="card">
-
-    <h3>Configuración del mapa</h3>
-
-    <div class="formGrid">
-
-      <div class="formGroup">
-        <label>Filas</label>
-        <input id="rowsInput" type="number" min="1" max="30">
-      </div>
-
-      <div class="formGroup">
-        <label>Columnas</label>
-        <input id="colsInput" type="number" min="1" max="20">
-      </div>
-
-    </div>
-
-    <div class="actions">
-      <button onclick="applyGridSize()">Aplicar tamaño</button>
-    </div>
-
-    <div class="small" style="margin-top:10px">
-      Por defecto: 10 filas × 7 columnas.
-      Anchuras iniciales: 0,75 / 0,50 / 1 / 0,50 / 1 / 0,50 / 0,75.
-    </div>
-
-  </div>
-
-
-  <!-- MAPA -->
-  <div class="card">
-
-    <div class="sectionTitle">
-      <h3>Mapa</h3>
-
-      <div class="toolbar">
-        <button class="light" onclick="selectAllCells()">Seleccionar todas</button>
-        <button class="light" onclick="clearSelection()">Quitar selección</button>
-      </div>
-    </div>
-
-    <div class="mapWrap">
-      <div id="bateaMap" class="bateaMap"></div>
-    </div>
-
-    <div id="selectionInfo" class="selectionInfo">
-      Ninguna celda seleccionada.
-    </div>
-
-  </div>
-
-
-  <!-- DATOS -->
-  <div class="card">
-
-    <h3>Datos de plantación</h3>
-
-    <div class="formGrid">
-
-      <div class="formGroup">
-        <label>Fecha de plantado</label>
-        <input id="dateInput" type="date">
-      </div>
-
-      <div class="formGroup">
-        <label>Procedencia</label>
-        <input id="originInput"
-               type="text"
-               placeholder="Escribe la procedencia como quieras">
-      </div>
-
-      <div class="formGroup">
-        <label>Nº de cuerdas</label>
-        <input id="ropesInput"
-               type="number"
-               min="0"
-               placeholder="0">
-      </div>
-
-    </div>
-
-
-    <div style="margin-top:14px">
-
-      <label style="font-weight:bold">
-        Color de la celda
-      </label>
-
-      <div id="colorPalette" class="colorPalette"></div>
-
-      <div class="small" style="margin-top:7px">
-        Puedes utilizar diferentes tonos para diferenciar tamaños,
-        lotes u otras características.
-      </div>
-
-    </div>
-
-
-    <div class="actions">
-      <button onclick="applyPlantingData()">
-        Aplicar a las celdas seleccionadas
-      </button>
-
-      <button class="light" onclick="clearForm()">
-        Limpiar
-      </button>
-    </div>
-
-  </div>
-
-
-  <!-- TABLA -->
-  <div class="card">
-
-    <h3>Registro de plantación</h3>
-
-    <div class="tableWrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Celda</th>
-            <th>Fecha</th>
-            <th>Procedencia</th>
-            <th>Nº cuerdas</th>
-            <th>Color</th>
-            <th></th>
-          </tr>
-        </thead>
-
-        <tbody id="plantingTable"></tbody>
-      </table>
-    </div>
-
-  </div>
-
-
-  <!-- ANOTACIONES -->
-  <div class="card">
-
-    <h3>Anotaciones</h3>
-
-    <textarea id="notesInput"
-              placeholder="Escribe aquí las anotaciones de la batea..."></textarea>
-
-    <div class="actions">
-      <button onclick="saveNotes()">Guardar anotaciones</button>
-    </div>
-
-  </div>
-
-</section>
-
-</main>
-
+<div class="container" id="app"></div>
 
 <script>
 
-/* =========================================================
-   DATOS Y CONFIGURACIÓN
-========================================================= */
+const STORAGE_KEY = "gestionBateas_v4";
 
-const STORAGE_KEY = "gestionBateas_v2";
-
-const defaultPolygons = [
+const DEFAULT_POLYGONS = [
   "Cangas a",
   "Cangas b",
   "Cangas f",
@@ -576,890 +349,1139 @@ const defaultPolygons = [
   "Redondela d"
 ];
 
-const columnWidths = [0.75,0.50,1,0.50,1,0.50,0.75];
-
-const colors = [
-  "#f4cccc","#ea9999","#cc0000",
-  "#fce5cd","#f9cb9c","#e69138",
-  "#fff2cc","#ffe599","#f1c232",
-  "#d9ead3","#b6d7a8","#6aa84f",
-  "#d0e0e3","#a2c4c9","#45818e",
-  "#cfe2f3","#9fc5e8","#3d85c6",
-  "#d9d2e9","#b4a7d6","#674ea7",
-  "#ead1dc","#d5a6bd","#a64d79",
-  "#eeeeee","#cccccc","#666666"
+const COLORS = [
+  "#e53935",
+  "#ef5350",
+  "#ff7043",
+  "#ff9800",
+  "#ffb300",
+  "#fdd835",
+  "#c0ca33",
+  "#7cb342",
+  "#43a047",
+  "#00897b",
+  "#00acc1",
+  "#039be5",
+  "#1e88e5",
+  "#3949ab",
+  "#5e35b1",
+  "#8e24aa",
+  "#d81b60",
+  "#6d4c41",
+  "#757575",
+  "#263238",
+  "#90caf9",
+  "#a5d6a7",
+  "#ffe082",
+  "#ce93d8"
 ];
 
 let data = loadData();
 
-let currentPolygonId = null;
-let currentBateaId = null;
-let selectedCells = new Set();
-let selectedColor = colors[9];
+let currentView = {
+  type:"polygons",
+  polygonId:null,
+  bateaId:null
+};
 
+let selectedPaintColor = COLORS[11];
 
-/* =========================================================
-   INICIO
-========================================================= */
+function uid(){
+  return Date.now().toString(36) + Math.random().toString(36).substring(2,8);
+}
+
+function createBatea(name){
+  return {
+    id:uid(),
+    name:name || "Nueva batea",
+    rows:10,
+    cols:7,
+    cells:{},
+    records:[],
+    notes:""
+  };
+}
+
+function createPolygon(name){
+  return {
+    id:uid(),
+    name:name,
+    bateas:[]
+  };
+}
 
 function loadData(){
 
   try{
-
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved=localStorage.getItem(STORAGE_KEY);
 
     if(saved){
-      return JSON.parse(saved);
-    }
+      const parsed=JSON.parse(saved);
 
+      if(parsed && Array.isArray(parsed.polygons)){
+        return parsed;
+      }
+    }
   }catch(e){
     console.error(e);
   }
 
   return {
-    polygons: defaultPolygons.map((name,i)=>({
-      id:"p"+Date.now()+i,
-      name:name,
-      bateas:[]
-    }))
+    polygons:DEFAULT_POLYGONS.map(name=>createPolygon(name))
   };
 }
-
 
 function saveData(){
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(data)
-  );
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
 }
 
-
-function uid(prefix){
-
-  return prefix + Date.now() + Math.random()
-    .toString(36)
-    .substring(2,7);
+function getPolygon(id){
+  return data.polygons.find(p=>p.id===id);
 }
 
-
-/* =========================================================
-   NAVEGACIÓN
-========================================================= */
-
-function hideScreens(){
-
-  document.getElementById("screenPolygons").classList.add("hidden");
-  document.getElementById("screenBateas").classList.add("hidden");
-  document.getElementById("screenBatea").classList.add("hidden");
+function getBatea(polygon,id){
+  return polygon?.bateas.find(b=>b.id===id);
 }
 
-
-function showPolygons(){
-
-  currentPolygonId = null;
-  currentBateaId = null;
-  selectedCells.clear();
-
-  hideScreens();
-
-  document.getElementById("screenPolygons")
-    .classList.remove("hidden");
-
-  document.getElementById("headerTitle").textContent =
-    "Gestión de bateas";
-
-  renderPolygons();
-}
-
-
-function showBateas(){
-
-  currentBateaId = null;
-  selectedCells.clear();
-
-  hideScreens();
-
-  document.getElementById("screenBateas")
-    .classList.remove("hidden");
-
-  const polygon = getCurrentPolygon();
-
-  document.getElementById("headerTitle").textContent =
-    polygon.name;
-
-  document.getElementById("polygonTitle").textContent =
-    polygon.name;
-
-  renderBateas();
-}
-
-
-function showBatea(){
-
-  hideScreens();
-
-  document.getElementById("screenBatea")
-    .classList.remove("hidden");
-
-  const batea = getCurrentBatea();
-
-  document.getElementById("headerTitle").textContent =
-    batea.name;
-
-  document.getElementById("bateaTitle").textContent =
-    batea.name;
-
-  selectedCells.clear();
-
-  document.getElementById("rowsInput").value =
-    batea.rows;
-
-  document.getElementById("colsInput").value =
-    batea.cols;
-
-  document.getElementById("notesInput").value =
-    batea.notes || "";
-
-  renderColorPalette();
-  renderMap();
-  renderTable();
-  updateSelectionInfo();
-}
-
-
-/* =========================================================
-   POLÍGONOS
-========================================================= */
-
-function renderPolygons(){
-
-  const list = document.getElementById("polygonList");
-
-  const search =
-    document.getElementById("polygonSearch")
-      .value.toLowerCase();
-
-  const polygons = data.polygons.filter(p =>
-    p.name.toLowerCase().includes(search)
-  );
-
-  if(!polygons.length){
-
-    list.innerHTML =
-      '<div class="card emptyMessage">No hay polígonos.</div>';
-
-    return;
-  }
-
-  list.innerHTML = polygons.map(p=>`
-
-    <div class="fileCard"
-         onclick="openPolygon('${p.id}')">
-
-      <div class="fileName">📁 ${escapeHtml(p.name)}</div>
-
-      <div class="small">
-        ${p.bateas.length} batea${p.bateas.length===1?"":"s"}
-      </div>
-
-    </div>
-
-  `).join("");
-}
-
-
-function newPolygon(){
-
-  const name =
-    prompt("Nombre del nuevo polígono:");
-
-  if(!name || !name.trim()) return;
-
-  data.polygons.push({
-    id:uid("p"),
-    name:name.trim(),
-    bateas:[]
-  });
-
-  saveData();
-  renderPolygons();
-}
-
-
-function openPolygon(id){
-
-  currentPolygonId = id;
-  showBateas();
-}
-
-
-function renamePolygon(){
-
-  const polygon = getCurrentPolygon();
-
-  const name =
-    prompt("Nuevo nombre del polígono:",polygon.name);
-
-  if(!name || !name.trim()) return;
-
-  polygon.name = name.trim();
-
-  saveData();
-  showBateas();
-}
-
-
-function deletePolygon(){
-
-  const polygon = getCurrentPolygon();
-
-  if(!confirm(
-    "¿Eliminar el polígono \""+
-    polygon.name+
-    "\" y todas sus bateas?"
-  )) return;
-
-  data.polygons =
-    data.polygons.filter(p =>
-      p.id !== currentPolygonId
-    );
-
-  saveData();
-  showPolygons();
-}
-
-
-/* =========================================================
-   BATEAS
-========================================================= */
-
-function renderBateas(){
-
-  const polygon = getCurrentPolygon();
-
-  const list = document.getElementById("bateaList");
-
-  const search =
-    document.getElementById("bateaSearch")
-      .value.toLowerCase();
-
-  const bateas = polygon.bateas.filter(b =>
-    b.name.toLowerCase().includes(search)
-  );
-
-  if(!bateas.length){
-
-    list.innerHTML =
-      '<div class="card emptyMessage">'+
-      'Este polígono todavía no tiene bateas.<br><br>'+
-      'Pulsa "+ Nueva batea" para crear la primera.'+
-      '</div>';
-
-    return;
-  }
-
-  list.innerHTML = bateas.map(b=>`
-
-    <div class="bateaCard"
-         onclick="openBatea('${b.id}')">
-
-      🗺️<br>
-      ${escapeHtml(b.name)}
-
-    </div>
-
-  `).join("");
-}
-
-
-function newBatea(){
-
-  const name =
-    prompt(
-      "Nombre de la nueva batea:",
-      "Batea "+(getCurrentPolygon().bateas.length+1)
-    );
-
-  if(!name || !name.trim()) return;
-
-  const batea = {
-
-    id:uid("b"),
-
-    name:name.trim(),
-
-    rows:10,
-
-    cols:7,
-
-    cells:{},
-
-    notes:""
-
-  };
-
-  getCurrentPolygon().bateas.push(batea);
-
-  saveData();
-
-  openBatea(batea.id);
-}
-
-
-function openBatea(id){
-
-  currentBateaId = id;
-  showBatea();
-}
-
-
-function renameBatea(){
-
-  const batea = getCurrentBatea();
-
-  const name =
-    prompt("Nuevo nombre de la batea:",batea.name);
-
-  if(!name || !name.trim()) return;
-
-  batea.name = name.trim();
-
-  saveData();
-  showBatea();
-}
-
-
-function deleteBatea(){
-
-  const batea = getCurrentBatea();
-
-  if(!confirm(
-    "¿Eliminar la batea \""+
-    batea.name+
-    "\"?"
-  )) return;
-
-  const polygon = getCurrentPolygon();
-
-  polygon.bateas =
-    polygon.bateas.filter(b =>
-      b.id !== currentBateaId
-    );
-
-  saveData();
-  showBateas();
-}
-
-
-/* =========================================================
-   MAPA
-========================================================= */
-
-function renderMap(){
-
-  const batea = getCurrentBatea();
-
-  const map =
-    document.getElementById("bateaMap");
-
-  map.innerHTML = "";
-
-  const widths = [];
-
-  for(let c=0;c<batea.cols;c++){
-
-    if(c<columnWidths.length){
-      widths.push(columnWidths[c]);
-    }else{
-      widths.push(1);
-    }
-
-  }
-
-  map.style.gridTemplateColumns =
-    widths.map(w => (w*42)+"px").join(" ");
-
-  for(let r=0;r<batea.rows;r++){
-
-    for(let c=0;c<batea.cols;c++){
-
-      const key =
-        cellKey(r,c);
-
-      const cell =
-        document.createElement("div");
-
-      cell.className = "cell";
-
-      const record = batea.cells[key];
-
-      if(record){
-
-        cell.style.background =
-          record.color || "#fff";
-
-        cell.classList.add("hasData");
-
-      }else{
-
-        cell.classList.add("empty");
-
-      }
-
-      if(selectedCells.has(key)){
-        cell.classList.add("selected");
-      }
-
-      cell.textContent =
-        getCellLabel(r,c);
-
-      cell.onclick = () =>
-        toggleCell(key);
-
-      map.appendChild(cell);
-    }
-
-  }
-}
-
-
-function getCellLabel(r,c){
-
-  let letters = "";
-
-  let n = c+1;
-
-  while(n>0){
-
-    let rem = (n-1)%26;
-
-    letters =
-      String.fromCharCode(65+rem)+letters;
-
-    n =
-      Math.floor((n-1)/26);
-  }
-
-  return letters+(r+1);
-}
-
-
-function cellKey(r,c){
-
-  return r+"-"+c;
-}
-
-
-function toggleCell(key){
-
-  if(selectedCells.has(key)){
-    selectedCells.delete(key);
-  }else{
-    selectedCells.add(key);
-  }
-
-  renderMap();
-  updateSelectionInfo();
-
-  const batea = getCurrentBatea();
-
-  const record =
-    batea.cells[key];
-
-  if(record){
-
-    document.getElementById("dateInput").value =
-      record.date || "";
-
-    document.getElementById("originInput").value =
-      record.origin || "";
-
-    document.getElementById("ropesInput").value =
-      record.ropes ?? "";
-
-    selectedColor =
-      record.color || selectedColor;
-
-    renderColorPalette();
-  }
-}
-
-
-function selectAllCells(){
-
-  const batea = getCurrentBatea();
-
-  selectedCells.clear();
-
-  for(let r=0;r<batea.rows;r++){
-
-    for(let c=0;c<batea.cols;c++){
-
-      selectedCells.add(
-        cellKey(r,c)
-      );
-
-    }
-
-  }
-
-  renderMap();
-  updateSelectionInfo();
-}
-
-
-function clearSelection(){
-
-  selectedCells.clear();
-
-  renderMap();
-  updateSelectionInfo();
-}
-
-
-function updateSelectionInfo(){
-
-  const box =
-    document.getElementById("selectionInfo");
-
-  if(!selectedCells.size){
-
-    box.textContent =
-      "Ninguna celda seleccionada.";
-
-    return;
-  }
-
-  const names =
-    [...selectedCells].map(key => {
-
-      const [r,c] =
-        key.split("-").map(Number);
-
-      return getCellLabel(r,c);
-
-    });
-
-  box.innerHTML =
-    "<strong>"+selectedCells.size+
-    "</strong> celda(s) seleccionada(s): "+
-    names.join(", ");
-}
-
-
-/* =========================================================
-   CONFIGURACIÓN DEL MAPA
-========================================================= */
-
-function applyGridSize(){
-
-  const batea = getCurrentBatea();
-
-  const newRows =
-    parseInt(
-      document.getElementById("rowsInput").value
-    );
-
-  const newCols =
-    parseInt(
-      document.getElementById("colsInput").value
-    );
-
-  if(
-    !newRows ||
-    !newCols ||
-    newRows<1 ||
-    newRows>30 ||
-    newCols<1 ||
-    newCols>20
-  ){
-
-    alert(
-      "Introduce un número válido de filas y columnas."
-    );
-
-    return;
-  }
-
-  batea.rows = newRows;
-  batea.cols = newCols;
-
-  saveData();
-
-  selectedCells.clear();
-
-  renderMap();
-  renderTable();
-  updateSelectionInfo();
-}
-
-
-/* =========================================================
-   COLORES
-========================================================= */
-
-function renderColorPalette(){
-
-  const palette =
-    document.getElementById("colorPalette");
-
-  palette.innerHTML =
-    colors.map(color=>`
-
-      <div class="colorChoice
-        ${selectedColor===color?"selected":""}"
-        style="background:${color}"
-        onclick="chooseColor('${color}')">
-      </div>
-
-    `).join("");
-}
-
-
-function chooseColor(color){
-
-  selectedColor = color;
-
-  renderColorPalette();
-}
-
-
-/* =========================================================
-   DATOS DE PLANTACIÓN
-========================================================= */
-
-function applyPlantingData(){
-
-  if(!selectedCells.size){
-
-    alert("Selecciona primero una o varias celdas.");
-
-    return;
-  }
-
-  const batea = getCurrentBatea();
-
-  const date =
-    document.getElementById("dateInput").value;
-
-  const origin =
-    document.getElementById("originInput").value.trim();
-
-  const ropes =
-    document.getElementById("ropesInput").value;
-
-  if(!date){
-
-    alert("Introduce la fecha de plantado.");
-
-    return;
-  }
-
-  if(!origin){
-
-    alert("Introduce la procedencia.");
-
-    return;
-  }
-
-  for(const key of selectedCells){
-
-    batea.cells[key] = {
-
-      date:date,
-
-      origin:origin,
-
-      ropes:ropes,
-
-      color:selectedColor
-
-    };
-
-  }
-
-  saveData();
-
-  renderMap();
-  renderTable();
-  updateSelectionInfo();
-}
-
-
-function clearForm(){
-
-  document.getElementById("dateInput").value = "";
-  document.getElementById("originInput").value = "";
-  document.getElementById("ropesInput").value = "";
-
-}
-
-
-function deleteCellRecord(key){
-
-  const batea = getCurrentBatea();
-
-  if(!batea.cells[key]) return;
-
-  if(!confirm(
-    "¿Eliminar los datos de esta celda?"
-  )) return;
-
-  delete batea.cells[key];
-
-  saveData();
-
-  renderMap();
-  renderTable();
-}
-
-
-/* =========================================================
-   TABLA
-========================================================= */
-
-function renderTable(){
-
-  const batea = getCurrentBatea();
-
-  const tbody =
-    document.getElementById("plantingTable");
-
-  const entries =
-    Object.entries(batea.cells);
-
-  if(!entries.length){
-
-    tbody.innerHTML =
-      `<tr>
-        <td colspan="6" class="emptyMessage">
-          Todavía no hay datos de plantación.
-        </td>
-      </tr>`;
-
-    return;
-  }
-
-  entries.sort((a,b)=>{
-
-    const [ra,ca] =
-      a[0].split("-").map(Number);
-
-    const [rb,cb] =
-      b[0].split("-").map(Number);
-
-    return ra-rb || ca-cb;
-
-  });
-
-  tbody.innerHTML =
-    entries.map(([key,record])=>{
-
-      const [r,c] =
-        key.split("-").map(Number);
-
-      const cellName =
-        getCellLabel(r,c);
-
-      return `
-
-        <tr>
-
-          <td><strong>${cellName}</strong></td>
-
-          <td>${formatDate(record.date)}</td>
-
-          <td>${escapeHtml(record.origin || "")}</td>
-
-          <td>${escapeHtml(String(record.ropes ?? ""))}</td>
-
-          <td>
-            <span class="colorDot"
-                  style="background:${record.color}">
-            </span>
-          </td>
-
-          <td>
-            <button class="danger"
-                    onclick="deleteCellRecord('${key}')">
-              Borrar
-            </button>
-          </td>
-
-        </tr>
-
-      `;
-
-    }).join("");
-}
-
-
-function formatDate(date){
-
-  if(!date) return "";
-
-  const parts =
-    date.split("-");
-
-  if(parts.length!==3) return date;
-
-  return parts[2]+"/"+
-         parts[1]+"/"+
-         parts[0];
-}
-
-
-/* =========================================================
-   ANOTACIONES
-========================================================= */
-
-function saveNotes(){
-
-  const batea = getCurrentBatea();
-
-  batea.notes =
-    document.getElementById("notesInput").value;
-
-  saveData();
-
-  alert("Anotaciones guardadas.");
-}
-
-
-/* =========================================================
-   UTILIDADES
-========================================================= */
-
-function getCurrentPolygon(){
-
-  return data.polygons.find(
-    p => p.id === currentPolygonId
-  );
-
-}
-
-
-function getCurrentBatea(){
-
-  const polygon = getCurrentPolygon();
-
-  return polygon.bateas.find(
-    b => b.id === currentBateaId
-  );
-
-}
-
-
-function escapeHtml(text){
-
-  return String(text)
+function escapeHtml(value){
+  return String(value ?? "")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
+}
 
+function formatNumber(n){
+  return Number(n||0).toLocaleString("es-ES");
+}
+
+function render(){
+
+  if(currentView.type==="polygons"){
+    renderPolygons();
+    return;
+  }
+
+  if(currentView.type==="batea"){
+    renderBatea();
+    return;
+  }
+
+  if(currentView.type==="polygon"){
+    renderPolygon();
+  }
+}
+
+
+/* =========================================================
+   POLIGONOS
+========================================================= */
+
+function renderPolygons(){
+
+  currentView.type="polygons";
+
+  document.getElementById("app").innerHTML=`
+
+    <div class="card">
+
+      <div class="section-title">
+
+        <div>
+          <h1>Polígonos de producción</h1>
+          <div class="muted">
+            Cada polígono contiene sus propias bateas.
+          </div>
+        </div>
+
+        <button onclick="newPolygon()">
+          + Nuevo polígono
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="card search">
+      <input
+        id="polygonSearch"
+        placeholder="Buscar polígono..."
+        oninput="filterPolygons()"
+      >
+    </div>
+
+    <div id="polygonList" class="polygon-grid"></div>
+  `;
+
+  filterPolygons();
+}
+
+function filterPolygons(){
+
+  const input=document.getElementById("polygonSearch");
+
+  if(!input)return;
+
+  const term=input.value.toLowerCase().trim();
+
+  const list=document.getElementById("polygonList");
+
+  const polygons=data.polygons.filter(p=>
+    p.name.toLowerCase().includes(term)
+  );
+
+  if(!polygons.length){
+    list.innerHTML=`
+      <div class="card empty">
+        No se encontraron polígonos.
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML=polygons.map(p=>`
+
+    <div class="polygon-card"
+         onclick="openPolygon('${p.id}')">
+
+      <div class="folder">📁</div>
+
+      <h2>${escapeHtml(p.name)}</h2>
+
+      <div class="muted">
+        ${p.bateas.length} batea${p.bateas.length===1?"":"s"}
+      </div>
+
+      <div style="margin-top:12px;">
+        <strong>
+          ${formatNumber(polygonTotal(p))} cuerdas
+        </strong>
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+function newPolygon(){
+
+  const name=prompt("Nombre del nuevo polígono:");
+
+  if(!name || !name.trim())return;
+
+  data.polygons.push(createPolygon(name.trim()));
+
+  saveData();
+
+  renderPolygons();
+}
+
+function openPolygon(id){
+
+  currentView={
+    type:"polygon",
+    polygonId:id
+  };
+
+  renderPolygon();
+}
+
+
+/* =========================================================
+   POLIGONO
+========================================================= */
+
+function renderPolygon(){
+
+  const p=getPolygon(currentView.polygonId);
+
+  if(!p){
+    currentView.type="polygons";
+    renderPolygons();
+    return;
+  }
+
+  document.getElementById("app").innerHTML=`
+
+    <div class="back">
+      <button class="secondary" onclick="renderPolygons()">
+        ← Polígonos
+      </button>
+    </div>
+
+    <div class="card">
+
+      <div class="section-title">
+
+        <div>
+          <h1>📁 ${escapeHtml(p.name)}</h1>
+          <div class="muted">
+            ${p.bateas.length} batea${p.bateas.length===1?"":"s"}
+          </div>
+        </div>
+
+        <div class="toolbar">
+
+          <button onclick="newBatea('${p.id}')">
+            + Nueva batea
+          </button>
+
+          <button
+            class="secondary"
+            onclick="renamePolygon('${p.id}')">
+            Renombrar
+          </button>
+
+          <button
+            class="danger"
+            onclick="deletePolygon('${p.id}')">
+            Eliminar
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <h2>Resumen del polígono</h2>
+
+      <div class="total-box">
+        <div class="muted">Total de cuerdas</div>
+        <div class="total-main">
+          ${formatNumber(polygonTotal(p))}
+        </div>
+      </div>
+
+      <h3 style="margin-top:20px;">
+        Total por color
+      </h3>
+
+      <div class="summary-grid">
+        ${polygonColorSummaryHtml(p)}
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="section-title">
+        <h2>Bateas</h2>
+      </div>
+
+      <div class="batea-grid">
+
+        ${
+          p.bateas.length
+          ?
+          p.bateas.map(b=>`
+
+            <div
+              class="batea-card"
+              onclick="openBatea('${p.id}','${b.id}')">
+
+              <h2>⚓ ${escapeHtml(b.name)}</h2>
+
+              <div class="muted">
+                ${b.rows} filas × ${b.cols} columnas
+              </div>
+
+              <div style="margin-top:10px;">
+                <strong>
+                  ${formatNumber(bateaTotal(b))} cuerdas
+                </strong>
+              </div>
+
+            </div>
+
+          `).join("")
+          :
+          `
+          <div class="empty">
+            Este polígono todavía no tiene bateas.
+          </div>
+          `
+        }
+
+      </div>
+
+    </div>
+  `;
+}
+
+function renamePolygon(id){
+
+  const p=getPolygon(id);
+
+  if(!p)return;
+
+  const name=prompt("Nuevo nombre del polígono:",p.name);
+
+  if(!name || !name.trim())return;
+
+  p.name=name.trim();
+
+  saveData();
+  renderPolygon();
+}
+
+function deletePolygon(id){
+
+  const p=getPolygon(id);
+
+  if(!p)return;
+
+  if(!confirm(
+    `¿Eliminar el polígono "${p.name}" y todas sus bateas?`
+  ))return;
+
+  data.polygons=data.polygons.filter(x=>x.id!==id);
+
+  saveData();
+
+  currentView.type="polygons";
+
+  renderPolygons();
+}
+
+function newBatea(polygonId){
+
+  const p=getPolygon(polygonId);
+
+  if(!p)return;
+
+  const name=prompt("Nombre de la nueva batea:");
+
+  if(!name || !name.trim())return;
+
+  p.bateas.push(createBatea(name.trim()));
+
+  saveData();
+
+  renderPolygon();
+}
+
+function openBatea(polygonId,bateaId){
+
+  currentView={
+    type:"batea",
+    polygonId,
+    bateaId
+  };
+
+  renderBatea();
+}
+
+
+/* =========================================================
+   BATEA
+========================================================= */
+
+function renderBatea(){
+
+  const p=getPolygon(currentView.polygonId);
+  const b=getBatea(p,currentView.bateaId);
+
+  if(!p || !b){
+    currentView.type="polygons";
+    renderPolygons();
+    return;
+  }
+
+  document.getElementById("app").innerHTML=`
+
+    <div class="back">
+      <button
+        class="secondary"
+        onclick="openPolygon('${p.id}')">
+        ← ${escapeHtml(p.name)}
+      </button>
+    </div>
+
+    <div class="card">
+
+      <div class="section-title">
+
+        <div>
+          <h1>⚓ ${escapeHtml(b.name)}</h1>
+          <div class="muted">
+            Polígono: ${escapeHtml(p.name)}
+          </div>
+        </div>
+
+        <div class="toolbar">
+
+          <button
+            class="secondary"
+            onclick="renameBatea('${p.id}','${b.id}')">
+            Renombrar batea
+          </button>
+
+          <button
+            class="danger"
+            onclick="deleteBatea('${p.id}','${b.id}')">
+            Eliminar batea
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2>Configuración del mapa</h2>
+
+      <div class="form-grid">
+
+        <div>
+          <label>Filas</label>
+          <input
+            id="rowsInput"
+            type="number"
+            min="1"
+            max="100"
+            value="${b.rows}">
+        </div>
+
+        <div>
+          <label>Columnas</label>
+          <input
+            id="colsInput"
+            type="number"
+            min="1"
+            max="50"
+            value="${b.cols}">
+        </div>
+
+        <div>
+          <button onclick="resizeGrid('${p.id}','${b.id}')">
+            Aplicar tamaño
+          </button>
+        </div>
+
+      </div>
+
+      <div class="notice" style="margin-top:15px;">
+        Tamaño estándar de columnas:
+        <strong>
+          0,75 / 0,5 / 1,3 / 0,5 / 1,3 / 0,5 / 0,75
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2>Mapa de la batea</h2>
+
+      <div>
+        <strong>Color seleccionado para pintar:</strong>
+        <span
+          id="selectedColorLabel"
+          style="
+            display:inline-block;
+            width:28px;
+            height:28px;
+            background:${selectedPaintColor};
+            vertical-align:middle;
+            margin-left:8px;
+            border-radius:5px;
+            border:1px solid #555;
+          ">
+        </span>
+      </div>
+
+      <div class="color-palette">
+
+        ${COLORS.map(c=>`
+
+          <div
+            class="color-option ${c===selectedPaintColor?"selected":""}"
+            style="background:${c}"
+            onclick="selectPaintColor('${c}')">
+          </div>
+
+        `).join("")}
+
+        <div class="custom-color">
+          <span>Otro:</span>
+          <input
+            type="color"
+            value="${selectedPaintColor}"
+            onchange="selectPaintColor(this.value)">
+        </div>
+
+      </div>
+
+      <p class="muted">
+        Selecciona un color y toca las celdas que quieras pintar.
+        No es necesario introducir procedencia.
+      </p>
+
+      <div class="grid-wrap">
+        ${mapHtml(b)}
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+
+        <div>
+          <h2>Información de plantado</h2>
+
+          <div class="muted">
+            Puedes asociar cada registro a un color.
+          </div>
+        </div>
+
+        <button
+          onclick="addRecord('${p.id}','${b.id}')">
+          + Añadir registro
+        </button>
+
+      </div>
+
+      <div class="table-wrap">
+
+        <table class="info-table">
+
+          <thead>
+            <tr>
+              <th>Color</th>
+              <th>Fecha de plantado</th>
+              <th>Procedencia / referencia</th>
+              <th>Tamaño / característica</th>
+              <th>Nº cuerdas</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            ${
+              b.records.length
+              ?
+              b.records.map((r,i)=>recordRowHtml(p,b,r,i)).join("")
+              :
+              `
+              <tr>
+                <td colspan="6" class="empty">
+                  No hay registros todavía.
+                </td>
+              </tr>
+              `
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div class="total-box">
+
+        <div class="muted">
+          Total de cuerdas de esta batea
+        </div>
+
+        <div class="total-main">
+          ${formatNumber(bateaTotal(b))}
+        </div>
+
+      </div>
+
+      <h3 style="margin-top:20px;">
+        Total de cuerdas por color
+      </h3>
+
+      <div class="summary-grid">
+        ${bateaColorSummaryHtml(b)}
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2>Anotaciones</h2>
+
+      <textarea
+        id="notes"
+        placeholder="Escribe aquí cualquier anotación de la batea..."
+        onchange="saveNotes('${p.id}','${b.id}',this.value)"
+      >${escapeHtml(b.notes)}</textarea>
+
+    </div>
+
+  `;
+}
+
+function mapHtml(b){
+
+  let columns;
+
+  if(b.cols===7){
+    columns=".75fr .5fr 1.3fr .5fr 1.3fr .5fr .75fr";
+  }else{
+    columns=`repeat(${b.cols},1fr)`;
+  }
+
+  let html=`
+    <div
+      class="batea-map"
+      style="
+        grid-template-columns:${columns};
+        grid-template-rows:repeat(${b.rows},minmax(38px,1fr));
+      ">
+  `;
+
+  for(let r=1;r<=b.rows;r++){
+
+    for(let c=1;c<=b.cols;c++){
+
+      const key=`${r}-${c}`;
+
+      const color=b.cells[key] || "#f8fafc";
+
+      html+=`
+        <div
+          class="map-cell"
+          style="background:${color}"
+          onclick="paintCell(
+            '${currentView.polygonId}',
+            '${b.id}',
+            '${key}'
+          )">
+        </div>
+      `;
+    }
+  }
+
+  html+="</div>";
+
+  return html;
+}
+
+function selectPaintColor(color){
+
+  selectedPaintColor=color;
+
+  renderBatea();
+}
+
+function paintCell(polygonId,bateaId,key){
+
+  const p=getPolygon(polygonId);
+  const b=getBatea(p,bateaId);
+
+  if(!b)return;
+
+  if(b.cells[key]===selectedPaintColor){
+    delete b.cells[key];
+  }else{
+    b.cells[key]=selectedPaintColor;
+  }
+
+  saveData();
+
+  renderBatea();
+}
+
+function resizeGrid(polygonId,bateaId){
+
+  const p=getPolygon(polygonId);
+  const b=getBatea(p,bateaId);
+
+  if(!b)return;
+
+  const rows=parseInt(document.getElementById("rowsInput").value);
+  const cols=parseInt(document.getElementById("colsInput").value);
+
+  if(!rows || rows<1 || !cols || cols<1){
+    alert("Introduce un número válido de filas y columnas.");
+    return;
+  }
+
+  const oldCells={...b.cells};
+  const newCells={};
+
+  Object.keys(oldCells).forEach(key=>{
+
+    const [r,c]=key.split("-").map(Number);
+
+    if(r<=rows && c<=cols){
+      newCells[key]=oldCells[key];
+    }
+
+  });
+
+  b.rows=rows;
+  b.cols=cols;
+  b.cells=newCells;
+
+  saveData();
+
+  renderBatea();
+}
+
+function renameBatea(polygonId,bateaId){
+
+  const p=getPolygon(polygonId);
+  const b=getBatea(p,bateaId);
+
+  if(!b)return;
+
+  const name=prompt(
+    "Nuevo nombre de la batea:",
+    b.name
+  );
+
+  if(!name || !name.trim())return;
+
+  b.name=name.trim();
+
+  saveData();
+
+  renderBatea();
+}
+
+function deleteBatea(polygonId,bateaId){
+
+  const p=getPolygon(polygonId);
+  const b=getBatea(p,bateaId);
+
+  if(!p || !b)return;
+
+  if(!confirm(
+    `¿Eliminar la batea "${b.name}"?`
+  ))return;
+
+  p.bateas=p.bateas.filter(x=>x.id!==bateaId);
+
+  saveData();
+
+  openPolygon(polygonId);
+}
+
+function saveNotes(polygonId,bateaId,value){
+
+  const p=getPolygon(polygonId);
+  const b=getBatea(p,bateaId);
+
+  if(!b)return;
+
+  b.notes=value;
+
+  saveData();
+}
+
+
+/* =========================================================
+   REGISTROS
+========================================================= */
+
+function addRecord(polygonId,bateaId){
+
+  const p=getPolygon(polygonId);
+  const b=getBatea(p,bateaId);
+
+  if(!b)return;
+
+  b.records.push({
+    id:uid(),
+    color:selectedPaintColor,
+    date:"",
+    origin:"",
+    characteristic:"",
+    ropes:0
+  });
+
+  saveData();
+
+  renderBatea();
+}
+
+function recordRowHtml(p,b,r,i){
+
+  return `
+    <tr>
+
+      <td>
+        <input
+          class="color-cell"
+          type="color"
+          value="${r.color || selectedPaintColor}"
+          onchange="
+            updateRecord(
+              '${p.id}',
+              '${b.id}',
+              '${r.id}',
+              'color',
+              this.value
+            )
+          ">
+      </td>
+
+      <td>
+        <input
+          type="date"
+          value="${escapeHtml(r.date)}"
+          onchange="
+            updateRecord(
+              '${p.id}',
+              '${b.id}',
+              '${r.id}',
+              'date',
+              this.value
+            )
+          ">
+      </td>
+
+      <td>
+        <input
+          type="text"
+          placeholder="Procedencia o referencia"
+          value="${escapeHtml(r.origin)}"
+          onchange="
+            updateRecord(
+              '${p.id}',
+              '${b.id}',
+              '${r.id}',
+              'origin',
+              this.value
+            )
+          ">
+      </td>
+
+      <td>
+        <input
+          type="text"
+          placeholder="Tamaño, clase, etc."
+          value="${escapeHtml(r.characteristic)}"
+          onchange="
+            updateRecord(
+              '${p.id}',
+              '${b.id}',
+              '${r.id}',
+              'characteristic',
+              this.value
+            )
+          ">
+      </td>
+
+      <td>
+        <input
+          type="number"
+          min="0"
+          value="${Number(r.ropes||0)}"
+          onchange="
+            updateRecord(
+              '${p.id}',
+              '${b.id}',
+              '${r.id}',
+              'ropes',
+              this.value
+            )
+          ">
+      </td>
+
+      <td>
+        <button
+          class="danger small"
+          onclick="
+            deleteRecord(
+              '${p.id}',
+              '${b.id}',
+              '${r.id}'
+            )
+          ">
+          Eliminar
+        </button>
+      </td>
+
+    </tr>
+  `;
+}
+
+function updateRecord(
+  polygonId,
+  bateaId,
+  recordId,
+  field,
+  value
+){
+
+  const p=getPolygon(polygonId);
+  const b=getBatea(p,bateaId);
+
+  if(!b)return;
+
+  const r=b.records.find(x=>x.id===recordId);
+
+  if(!r)return;
+
+  if(field==="ropes"){
+    r.ropes=Math.max(0,Number(value)||0);
+  }else{
+    r[field]=value;
+  }
+
+  saveData();
+
+  renderBatea();
+}
+
+function deleteRecord(polygonId,bateaId,recordId){
+
+  const p=getPolygon(polygonId);
+  const b=getBatea(p,bateaId);
+
+  if(!b)return;
+
+  b.records=b.records.filter(r=>r.id!==recordId);
+
+  saveData();
+
+  renderBatea();
+}
+
+
+/* =========================================================
+   SUMAS
+========================================================= */
+
+function bateaTotal(b){
+
+  return b.records.reduce(
+    (sum,r)=>sum+(Number(r.ropes)||0),
+    0
+  );
+}
+
+function polygonTotal(p){
+
+  return p.bateas.reduce(
+    (sum,b)=>sum+bateaTotal(b),
+    0
+  );
+}
+
+function colorTotalsForBatea(b){
+
+  const totals={};
+
+  b.records.forEach(r=>{
+
+    const color=r.color || "#999999";
+
+    totals[color]=(totals[color]||0)+(Number(r.ropes)||0);
+
+  });
+
+  return totals;
+}
+
+function colorTotalsForPolygon(p){
+
+  const totals={};
+
+  p.bateas.forEach(b=>{
+
+    b.records.forEach(r=>{
+
+      const color=r.color || "#999999";
+
+      totals[color]=(totals[color]||0)+(Number(r.ropes)||0);
+
+    });
+
+  });
+
+  return totals;
+}
+
+function bateaColorSummaryHtml(b){
+
+  const totals=colorTotalsForBatea(b);
+
+  const entries=Object.entries(totals)
+    .filter(([color,total])=>total>0);
+
+  if(!entries.length){
+    return `
+      <div class="empty">
+        Todavía no hay cuerdas registradas.
+      </div>
+    `;
+  }
+
+  return entries.map(([color,total])=>`
+
+    <div class="summary-item">
+
+      <div class="summary-color">
+
+        <span
+          class="summary-swatch"
+          style="background:${color}">
+        </span>
+
+        <span>
+          ${formatNumber(total)} cuerdas
+        </span>
+
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+function polygonColorSummaryHtml(p){
+
+  const totals=colorTotalsForPolygon(p);
+
+  const entries=Object.entries(totals)
+    .filter(([color,total])=>total>0);
+
+  if(!entries.length){
+    return `
+      <div class="empty">
+        Todavía no hay cuerdas registradas.
+      </div>
+    `;
+  }
+
+  return entries.map(([color,total])=>`
+
+    <div class="summary-item">
+
+      <div class="summary-color">
+
+        <span
+          class="summary-swatch"
+          style="background:${color}">
+        </span>
+
+        <span>
+          ${formatNumber(total)} cuerdas
+        </span>
+
+      </div>
+
+    </div>
+
+  `).join("");
 }
 
 
@@ -1467,7 +1489,7 @@ function escapeHtml(text){
    INICIO
 ========================================================= */
 
-showPolygons();
+render();
 
 </script>
 
