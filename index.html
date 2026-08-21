@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Gestión de bateas</title>
 
 <style>
@@ -16,206 +16,302 @@ body{
 }
 
 header{
-  background:#073b5c;
+  background:#123b5d;
   color:white;
-  padding:14px;
+  padding:16px;
   position:sticky;
   top:0;
-  z-index:10;
+  z-index:20;
+  box-shadow:0 2px 6px #0003;
 }
 
 header h1{
   margin:0;
-  font-size:21px;
+  font-size:22px;
 }
 
-header small{
-  opacity:.8;
-}
-
-.container{
-  padding:12px;
-  max-width:1000px;
+main{
+  max-width:1100px;
   margin:auto;
+  padding:15px;
 }
 
 button{
   border:0;
   border-radius:8px;
-  padding:10px 14px;
+  padding:11px 14px;
   font-size:15px;
   cursor:pointer;
-}
-
-.primary{
-  background:#087fbd;
+  background:#1769aa;
   color:white;
 }
 
-.secondary{
-  background:#dce7ee;
-  color:#17384b;
+button.secondary{
+  background:#607d8b;
 }
 
-.danger{
-  background:#c0392b;
-  color:white;
+button.danger{
+  background:#b3261e;
+}
+
+button.light{
+  background:#e2e8ed;
+  color:#17212b;
+}
+
+button:active{
+  transform:scale(.98);
+}
+
+input,select,textarea{
+  width:100%;
+  padding:10px;
+  border:1px solid #b8c3cc;
+  border-radius:7px;
+  font-size:15px;
+  background:white;
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical;
 }
 
 .card{
   background:white;
   border-radius:12px;
-  padding:14px;
-  margin-bottom:12px;
+  padding:15px;
+  margin-bottom:15px;
   box-shadow:0 2px 8px #0001;
 }
 
-h2,h3{
+.card h2,.card h3{
   margin-top:0;
-}
-
-.bateas{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-}
-
-.batea{
-  background:#dbeaf2;
-  border-radius:9px;
-  padding:13px 5px;
-  text-align:center;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.batea:hover{
-  background:#b9d9e8;
-}
-
-.batea.activa{
-  background:#087fbd;
-  color:white;
 }
 
 .toolbar{
   display:flex;
-  gap:7px;
+  gap:8px;
   flex-wrap:wrap;
   margin-bottom:12px;
 }
 
-.config{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  align-items:center;
-}
-
-select,input,textarea{
-  border:1px solid #b8c5ce;
-  border-radius:7px;
-  padding:9px;
-  font-size:15px;
-}
-
-textarea{
-  width:100%;
-  min-height:70px;
-}
-
-.grid-wrapper{
-  overflow:auto;
-  background:#d7e1e7;
-  border-radius:10px;
-  padding:8px;
-}
-
-.grid{
+.gridFiles{
   display:grid;
-  gap:3px;
-  min-width:500px;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:12px;
+}
+
+.fileCard{
+  background:white;
+  border:2px solid #d6dee5;
+  border-radius:12px;
+  padding:16px;
+  min-height:90px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  cursor:pointer;
+}
+
+.fileCard:hover{
+  border-color:#1769aa;
+}
+
+.fileName{
+  font-weight:bold;
+  font-size:18px;
+}
+
+.bateaGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:10px;
+}
+
+.bateaCard{
+  background:white;
+  border:2px solid #d6dee5;
+  border-radius:10px;
+  padding:14px;
+  cursor:pointer;
+  text-align:center;
+  font-weight:bold;
+}
+
+.bateaCard:hover{
+  border-color:#1769aa;
+}
+
+.back{
+  margin-bottom:12px;
+}
+
+.mapWrap{
+  overflow:auto;
+  padding:8px;
+  background:#d9e1e7;
+  border-radius:10px;
+}
+
+.bateaMap{
+  display:grid;
+  gap:2px;
+  width:max-content;
+  margin:auto;
+  background:#777;
+  border:2px solid #555;
 }
 
 .cell{
-  min-height:42px;
-  border:1px solid #9eabb3;
-  background:#f8fbfc;
-  border-radius:4px;
+  min-width:34px;
+  min-height:34px;
+  background:white;
+  border:1px solid #777;
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:11px;
-  cursor:pointer;
   user-select:none;
+  touch-action:manipulation;
+  cursor:pointer;
 }
 
-.cell:hover{
-  border:2px solid #087fbd;
+.cell.selected{
+  outline:3px solid #111;
+  outline-offset:-3px;
+  position:relative;
+  z-index:2;
 }
 
-.cell.pintada{
-  background:#4aa3df;
-  color:white;
-  border-color:#287cae;
+.cell.empty{
+  background:#fff;
+}
+
+.cell.hasData{
+  color:#17212b;
   font-weight:bold;
 }
 
-.cell.cabecera{
-  background:#607d8b;
-  color:white;
-  font-weight:bold;
-  cursor:default;
-}
-
-.info{
-  font-size:14px;
-  color:#50616c;
-}
-
-.lotes{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.lote{
-  border-left:7px solid #087fbd;
-  background:#f5f8fa;
+.selectionInfo{
   padding:10px;
+  background:#e8f1f8;
+  border-radius:8px;
+  margin-top:10px;
+}
+
+.formGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+}
+
+.formGroup label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.colorPalette{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:5px;
+}
+
+.colorChoice{
+  width:34px;
+  height:34px;
   border-radius:7px;
+  border:3px solid transparent;
+  cursor:pointer;
+}
+
+.colorChoice.selected{
+  border-color:#111;
+  transform:scale(1.12);
+}
+
+.tableWrap{
+  overflow:auto;
+}
+
+table{
+  border-collapse:collapse;
+  width:100%;
+  min-width:650px;
+}
+
+th,td{
+  border:1px solid #c6d0d8;
+  padding:8px;
+  text-align:left;
+  background:white;
+}
+
+th{
+  background:#e5ebef;
+}
+
+.colorDot{
+  display:inline-block;
+  width:20px;
+  height:20px;
+  border-radius:4px;
+  vertical-align:middle;
+}
+
+.emptyMessage{
+  text-align:center;
+  padding:25px;
+  color:#65727c;
 }
 
 .hidden{
-  display:none;
+  display:none !important;
 }
 
-.row{
+.small{
+  font-size:13px;
+  color:#60717d;
+}
+
+.actions{
   display:flex;
-  gap:8px;
+  gap:7px;
   flex-wrap:wrap;
-  margin-bottom:8px;
+  margin-top:12px;
 }
 
-.row>*{
-  flex:1;
-  min-width:130px;
+.sectionTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
 }
 
-label{
-  display:block;
-  font-size:13px;
-  margin-bottom:4px;
-  color:#52636e;
-}
+@media(max-width:600px){
+  main{
+    padding:9px;
+  }
 
-.status{
-  padding:8px;
-  background:#e8f4e8;
-  color:#28733b;
-  border-radius:7px;
-  font-size:13px;
-  margin-bottom:10px;
+  header{
+    padding:13px;
+  }
+
+  header h1{
+    font-size:19px;
+  }
+
+  button{
+    padding:10px 11px;
+  }
+
+  .cell{
+    min-width:31px;
+    min-height:31px;
+  }
 }
 </style>
 </head>
@@ -223,524 +319,1155 @@ label{
 <body>
 
 <header>
-  <h1>⚓ Gestión de bateas</h1>
-  <small>Control de producción y siembra</small>
+  <h1 id="headerTitle">Gestión de bateas</h1>
 </header>
 
-<div class="container">
+<main>
 
-  <div id="inicio">
+<!-- PANTALLA POLÍGONOS -->
+<section id="screenPolygons">
 
-    <div class="card">
-      <h2>Mis bateas</h2>
-      <div class="status">✓ Los datos se guardan automáticamente en este dispositivo</div>
-      <div class="bateas" id="listaBateas"></div>
+  <div class="card">
+    <div class="sectionTitle">
+      <div>
+        <h2>Polígonos de producción</h2>
+        <div class="small">Cada polígono contiene sus propias bateas.</div>
+      </div>
+      <button onclick="newPolygon()">+ Nuevo polígono</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <input id="polygonSearch"
+           type="search"
+           placeholder="Buscar polígono..."
+           oninput="renderPolygons()">
+  </div>
+
+  <div id="polygonList" class="gridFiles"></div>
+
+</section>
+
+
+<!-- PANTALLA BATEAS -->
+<section id="screenBateas" class="hidden">
+
+  <button class="secondary back" onclick="showPolygons()">← Polígonos</button>
+
+  <div class="card">
+    <div class="sectionTitle">
+      <div>
+        <h2 id="polygonTitle"></h2>
+        <div class="small">Archivo del polígono</div>
+      </div>
+
+      <div class="toolbar">
+        <button onclick="renamePolygon()">Renombrar</button>
+        <button class="danger" onclick="deletePolygon()">Eliminar</button>
+        <button onclick="newBatea()">+ Nueva batea</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <input id="bateaSearch"
+           type="search"
+           placeholder="Buscar batea..."
+           oninput="renderBateas()">
+  </div>
+
+  <div id="bateaList" class="bateaGrid"></div>
+
+</section>
+
+
+<!-- PANTALLA BATEA -->
+<section id="screenBatea" class="hidden">
+
+  <button class="secondary back" onclick="showBateas()">← Bateas</button>
+
+  <div class="card">
+
+    <div class="sectionTitle">
+      <div>
+        <h2 id="bateaTitle"></h2>
+        <div class="small">Mapa de la batea</div>
+      </div>
+
+      <div class="toolbar">
+        <button onclick="renameBatea()">Renombrar</button>
+        <button class="danger" onclick="deleteBatea()">Eliminar</button>
+      </div>
     </div>
 
   </div>
 
 
-  <div id="ficha" class="hidden">
+  <!-- CONFIGURACIÓN -->
+  <div class="card">
 
-    <div class="toolbar">
-      <button class="secondary" onclick="volver()">← Bateas</button>
-      <button class="primary" onclick="guardar()">Guardar</button>
-    </div>
+    <h3>Configuración del mapa</h3>
 
-    <div class="card">
-      <h2 id="tituloBatea">Batea</h2>
+    <div class="formGrid">
 
-      <div class="config">
-
-        <label>
-          Configuración
-          <select id="configuracion" onchange="cambiarConfiguracion()">
-            <option value="10x7">10 x 7</option>
-            <option value="9x7">9 x 7</option>
-          </select>
-        </label>
-
-        <button class="secondary" onclick="limpiarBatea()">
-          Limpiar
-        </button>
-
+      <div class="formGroup">
+        <label>Filas</label>
+        <input id="rowsInput" type="number" min="1" max="30">
       </div>
 
-      <p class="info">
-        Toca una celda para pintar o despintar un tramo.
-      </p>
-
-      <div class="grid-wrapper">
-        <div id="grid" class="grid"></div>
+      <div class="formGroup">
+        <label>Columnas</label>
+        <input id="colsInput" type="number" min="1" max="20">
       </div>
 
     </div>
 
+    <div class="actions">
+      <button onclick="applyGridSize()">Aplicar tamaño</button>
+    </div>
 
-    <div class="card">
+    <div class="small" style="margin-top:10px">
+      Por defecto: 10 filas × 7 columnas.
+      Anchuras iniciales: 0,75 / 0,50 / 1 / 0,50 / 1 / 0,50 / 0,75.
+    </div>
 
-      <h3>Nuevo lote</h3>
+  </div>
 
-      <div class="row">
 
-        <div>
-          <label>Fecha</label>
-          <input type="date" id="fecha">
-        </div>
+  <!-- MAPA -->
+  <div class="card">
 
-        <div>
-          <label>Procedencia</label>
-          <input type="text" id="procedencia"
-                 placeholder="Ej. Cambados">
-        </div>
+    <div class="sectionTitle">
+      <h3>Mapa</h3>
 
+      <div class="toolbar">
+        <button class="light" onclick="selectAllCells()">Seleccionar todas</button>
+        <button class="light" onclick="clearSelection()">Quitar selección</button>
+      </div>
+    </div>
+
+    <div class="mapWrap">
+      <div id="bateaMap" class="bateaMap"></div>
+    </div>
+
+    <div id="selectionInfo" class="selectionInfo">
+      Ninguna celda seleccionada.
+    </div>
+
+  </div>
+
+
+  <!-- DATOS -->
+  <div class="card">
+
+    <h3>Datos de plantación</h3>
+
+    <div class="formGrid">
+
+      <div class="formGroup">
+        <label>Fecha de plantado</label>
+        <input id="dateInput" type="date">
       </div>
 
-      <div class="row">
-
-        <div>
-          <label>Nº de cuerdas</label>
-          <input type="number" id="cuerdas"
-                 placeholder="Ej. 100">
-        </div>
-
-        <div>
-          <label>Color</label>
-          <input type="color" id="color" value="#4aa3df">
-        </div>
-
+      <div class="formGroup">
+        <label>Procedencia</label>
+        <input id="originInput"
+               type="text"
+               placeholder="Escribe la procedencia como quieras">
       </div>
 
-      <label>Nota</label>
-      <textarea id="nota"
-        placeholder="Observaciones del lote..."></textarea>
+      <div class="formGroup">
+        <label>Nº de cuerdas</label>
+        <input id="ropesInput"
+               type="number"
+               min="0"
+               placeholder="0">
+      </div>
 
-      <br><br>
+    </div>
 
-      <button class="primary" onclick="guardarLote()">
-        Añadir lote
+
+    <div style="margin-top:14px">
+
+      <label style="font-weight:bold">
+        Color de la celda
+      </label>
+
+      <div id="colorPalette" class="colorPalette"></div>
+
+      <div class="small" style="margin-top:7px">
+        Puedes utilizar diferentes tonos para diferenciar tamaños,
+        lotes u otras características.
+      </div>
+
+    </div>
+
+
+    <div class="actions">
+      <button onclick="applyPlantingData()">
+        Aplicar a las celdas seleccionadas
       </button>
 
-    </div>
-
-
-    <div class="card">
-
-      <h3>Lotes de esta batea</h3>
-
-      <div id="lotes" class="lotes"></div>
-
+      <button class="light" onclick="clearForm()">
+        Limpiar
+      </button>
     </div>
 
   </div>
 
-</div>
+
+  <!-- TABLA -->
+  <div class="card">
+
+    <h3>Registro de plantación</h3>
+
+    <div class="tableWrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Celda</th>
+            <th>Fecha</th>
+            <th>Procedencia</th>
+            <th>Nº cuerdas</th>
+            <th>Color</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody id="plantingTable"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+
+  <!-- ANOTACIONES -->
+  <div class="card">
+
+    <h3>Anotaciones</h3>
+
+    <textarea id="notesInput"
+              placeholder="Escribe aquí las anotaciones de la batea..."></textarea>
+
+    <div class="actions">
+      <button onclick="saveNotes()">Guardar anotaciones</button>
+    </div>
+
+  </div>
+
+</section>
+
+</main>
 
 
 <script>
 
-const TOTAL_BATEAS = 27;
+/* =========================================================
+   DATOS Y CONFIGURACIÓN
+========================================================= */
 
-let datos = JSON.parse(
-  localStorage.getItem("gestionBateas")
-) || {};
+const STORAGE_KEY = "gestionBateas_v2";
 
-let bateaActual = null;
+const defaultPolygons = [
+  "Cangas a",
+  "Cangas b",
+  "Cangas f",
+  "Bueu a1",
+  "Redondela d"
+];
+
+const columnWidths = [0.75,0.50,1,0.50,1,0.50,0.75];
+
+const colors = [
+  "#f4cccc","#ea9999","#cc0000",
+  "#fce5cd","#f9cb9c","#e69138",
+  "#fff2cc","#ffe599","#f1c232",
+  "#d9ead3","#b6d7a8","#6aa84f",
+  "#d0e0e3","#a2c4c9","#45818e",
+  "#cfe2f3","#9fc5e8","#3d85c6",
+  "#d9d2e9","#b4a7d6","#674ea7",
+  "#ead1dc","#d5a6bd","#a64d79",
+  "#eeeeee","#cccccc","#666666"
+];
+
+let data = loadData();
+
+let currentPolygonId = null;
+let currentBateaId = null;
+let selectedCells = new Set();
+let selectedColor = colors[9];
 
 
-/* =========================
+/* =========================================================
    INICIO
-========================= */
+========================================================= */
 
-function iniciar(){
+function loadData(){
 
-  const lista = document.getElementById("listaBateas");
+  try{
 
-  lista.innerHTML = "";
+    const saved = localStorage.getItem(STORAGE_KEY);
 
-  for(let i=1;i<=TOTAL_BATEAS;i++){
-
-    const boton = document.createElement("div");
-
-    boton.className = "batea";
-
-    boton.textContent = "Batea " + i;
-
-    boton.onclick = function(){
-      abrirBatea(i);
-    };
-
-    lista.appendChild(boton);
-  }
-
-}
-
-
-/* =========================
-   ABRIR BATEA
-========================= */
-
-function abrirBatea(numero){
-
-  bateaActual = numero;
-
-  if(!datos[numero]){
-
-    datos[numero] = {
-      configuracion:"10x7",
-      celdas:[],
-      lotes:[]
-    };
-
-  }
-
-  document.getElementById("inicio")
-    .classList.add("hidden");
-
-  document.getElementById("ficha")
-    .classList.remove("hidden");
-
-  document.getElementById("tituloBatea").textContent =
-    "Batea " + numero;
-
-  document.getElementById("configuracion").value =
-    datos[numero].configuracion || "10x7";
-
-  dibujarGrid();
-
-  mostrarLotes();
-
-}
-
-
-/* =========================
-   GRID
-========================= */
-
-function dibujarGrid(){
-
-  const grid = document.getElementById("grid");
-
-  const config =
-    document.getElementById("configuracion").value;
-
-  const partes = config.split("x");
-
-  const columnas = parseInt(partes[0]);
-  const filas = parseInt(partes[1]);
-
-  grid.innerHTML = "";
-
-  grid.style.gridTemplateColumns =
-    `repeat(${columnas},1fr)`;
-
-  for(let f=0;f<filas;f++){
-
-    for(let c=0;c<columnas;c++){
-
-      const celda = document.createElement("div");
-
-      celda.className = "cell";
-
-      const id = f + "-" + c;
-
-      celda.dataset.id = id;
-
-      if(
-        datos[bateaActual].celdas &&
-        datos[bateaActual].celdas.includes(id)
-      ){
-        celda.classList.add("pintada");
-        celda.textContent = "✓";
-      }
-
-      celda.onclick = function(){
-
-        pintarCelda(celda,id);
-
-      };
-
-      grid.appendChild(celda);
-
+    if(saved){
+      return JSON.parse(saved);
     }
 
+  }catch(e){
+    console.error(e);
   }
 
+  return {
+    polygons: defaultPolygons.map((name,i)=>({
+      id:"p"+Date.now()+i,
+      name:name,
+      bateas:[]
+    }))
+  };
 }
 
 
-/* =========================
-   PINTAR CELDAS
-========================= */
-
-function pintarCelda(celda,id){
-
-  if(celda.classList.contains("pintada")){
-
-    celda.classList.remove("pintada");
-
-    celda.textContent = "";
-
-    datos[bateaActual].celdas =
-      datos[bateaActual].celdas.filter(
-        x => x !== id
-      );
-
-  }else{
-
-    celda.classList.add("pintada");
-
-    celda.textContent = "✓";
-
-    if(!datos[bateaActual].celdas){
-      datos[bateaActual].celdas=[];
-    }
-
-    datos[bateaActual].celdas.push(id);
-
-  }
-
-  guardar();
-
-}
-
-
-/* =========================
-   CONFIGURACION
-========================= */
-
-function cambiarConfiguracion(){
-
-  datos[bateaActual].configuracion =
-    document.getElementById("configuracion").value;
-
-  datos[bateaActual].celdas=[];
-
-  dibujarGrid();
-
-  guardar();
-
-}
-
-
-/* =========================
-   LIMPIAR
-========================= */
-
-function limpiarBatea(){
-
-  if(!confirm(
-    "¿Quieres borrar todos los tramos pintados?"
-  )) return;
-
-  datos[bateaActual].celdas=[];
-
-  dibujarGrid();
-
-  guardar();
-
-}
-
-
-/* =========================
-   LOTES
-========================= */
-
-function guardarLote(){
-
-  const fecha =
-    document.getElementById("fecha").value;
-
-  const procedencia =
-    document.getElementById("procedencia").value;
-
-  const cuerdas =
-    document.getElementById("cuerdas").value;
-
-  const color =
-    document.getElementById("color").value;
-
-  const nota =
-    document.getElementById("nota").value;
-
-  if(!fecha && !procedencia && !cuerdas && !nota){
-
-    alert("Introduce al menos algún dato del lote.");
-
-    return;
-
-  }
-
-  if(!datos[bateaActual].lotes){
-    datos[bateaActual].lotes=[];
-  }
-
-  datos[bateaActual].lotes.push({
-
-    fecha:fecha,
-
-    procedencia:procedencia,
-
-    cuerdas:cuerdas,
-
-    color:color,
-
-    nota:nota
-
-  });
-
-  document.getElementById("fecha").value="";
-
-  document.getElementById("procedencia").value="";
-
-  document.getElementById("cuerdas").value="";
-
-  document.getElementById("nota").value="";
-
-  mostrarLotes();
-
-  guardar();
-
-}
-
-
-/* =========================
-   MOSTRAR LOTES
-========================= */
-
-function mostrarLotes(){
-
-  const contenedor =
-    document.getElementById("lotes");
-
-  contenedor.innerHTML="";
-
-  const lotes =
-    datos[bateaActual].lotes || [];
-
-  if(lotes.length===0){
-
-    contenedor.innerHTML =
-      '<div class="info">Todavía no hay lotes registrados.</div>';
-
-    return;
-
-  }
-
-  lotes.forEach(function(lote,index){
-
-    const div =
-      document.createElement("div");
-
-    div.className="lote";
-
-    div.style.borderLeftColor =
-      lote.color || "#087fbd";
-
-    div.innerHTML = `
-
-      <strong>Lote ${index+1}</strong><br>
-
-      ${lote.fecha ?
-        "📅 "+lote.fecha+"<br>" : ""}
-
-      ${lote.procedencia ?
-        "📍 Procedencia: "+
-        escapar(lote.procedencia)+"<br>" : ""}
-
-      ${lote.cuerdas ?
-        "🪢 Cuerdas: "+
-        escapar(lote.cuerdas)+"<br>" : ""}
-
-      ${lote.nota ?
-        "📝 "+escapar(lote.nota)+"<br>" : ""}
-
-      <br>
-
-      <button class="danger"
-        onclick="borrarLote(${index})">
-        Borrar lote
-      </button>
-
-    `;
-
-    contenedor.appendChild(div);
-
-  });
-
-}
-
-
-/* =========================
-   BORRAR LOTE
-========================= */
-
-function borrarLote(index){
-
-  if(!confirm("¿Borrar este lote?")) return;
-
-  datos[bateaActual].lotes.splice(index,1);
-
-  mostrarLotes();
-
-  guardar();
-
-}
-
-
-/* =========================
-   GUARDAR
-========================= */
-
-function guardar(){
+function saveData(){
 
   localStorage.setItem(
-    "gestionBateas",
-    JSON.stringify(datos)
+    STORAGE_KEY,
+    JSON.stringify(data)
+  );
+}
+
+
+function uid(prefix){
+
+  return prefix + Date.now() + Math.random()
+    .toString(36)
+    .substring(2,7);
+}
+
+
+/* =========================================================
+   NAVEGACIÓN
+========================================================= */
+
+function hideScreens(){
+
+  document.getElementById("screenPolygons").classList.add("hidden");
+  document.getElementById("screenBateas").classList.add("hidden");
+  document.getElementById("screenBatea").classList.add("hidden");
+}
+
+
+function showPolygons(){
+
+  currentPolygonId = null;
+  currentBateaId = null;
+  selectedCells.clear();
+
+  hideScreens();
+
+  document.getElementById("screenPolygons")
+    .classList.remove("hidden");
+
+  document.getElementById("headerTitle").textContent =
+    "Gestión de bateas";
+
+  renderPolygons();
+}
+
+
+function showBateas(){
+
+  currentBateaId = null;
+  selectedCells.clear();
+
+  hideScreens();
+
+  document.getElementById("screenBateas")
+    .classList.remove("hidden");
+
+  const polygon = getCurrentPolygon();
+
+  document.getElementById("headerTitle").textContent =
+    polygon.name;
+
+  document.getElementById("polygonTitle").textContent =
+    polygon.name;
+
+  renderBateas();
+}
+
+
+function showBatea(){
+
+  hideScreens();
+
+  document.getElementById("screenBatea")
+    .classList.remove("hidden");
+
+  const batea = getCurrentBatea();
+
+  document.getElementById("headerTitle").textContent =
+    batea.name;
+
+  document.getElementById("bateaTitle").textContent =
+    batea.name;
+
+  selectedCells.clear();
+
+  document.getElementById("rowsInput").value =
+    batea.rows;
+
+  document.getElementById("colsInput").value =
+    batea.cols;
+
+  document.getElementById("notesInput").value =
+    batea.notes || "";
+
+  renderColorPalette();
+  renderMap();
+  renderTable();
+  updateSelectionInfo();
+}
+
+
+/* =========================================================
+   POLÍGONOS
+========================================================= */
+
+function renderPolygons(){
+
+  const list = document.getElementById("polygonList");
+
+  const search =
+    document.getElementById("polygonSearch")
+      .value.toLowerCase();
+
+  const polygons = data.polygons.filter(p =>
+    p.name.toLowerCase().includes(search)
+  );
+
+  if(!polygons.length){
+
+    list.innerHTML =
+      '<div class="card emptyMessage">No hay polígonos.</div>';
+
+    return;
+  }
+
+  list.innerHTML = polygons.map(p=>`
+
+    <div class="fileCard"
+         onclick="openPolygon('${p.id}')">
+
+      <div class="fileName">📁 ${escapeHtml(p.name)}</div>
+
+      <div class="small">
+        ${p.bateas.length} batea${p.bateas.length===1?"":"s"}
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+
+function newPolygon(){
+
+  const name =
+    prompt("Nombre del nuevo polígono:");
+
+  if(!name || !name.trim()) return;
+
+  data.polygons.push({
+    id:uid("p"),
+    name:name.trim(),
+    bateas:[]
+  });
+
+  saveData();
+  renderPolygons();
+}
+
+
+function openPolygon(id){
+
+  currentPolygonId = id;
+  showBateas();
+}
+
+
+function renamePolygon(){
+
+  const polygon = getCurrentPolygon();
+
+  const name =
+    prompt("Nuevo nombre del polígono:",polygon.name);
+
+  if(!name || !name.trim()) return;
+
+  polygon.name = name.trim();
+
+  saveData();
+  showBateas();
+}
+
+
+function deletePolygon(){
+
+  const polygon = getCurrentPolygon();
+
+  if(!confirm(
+    "¿Eliminar el polígono \""+
+    polygon.name+
+    "\" y todas sus bateas?"
+  )) return;
+
+  data.polygons =
+    data.polygons.filter(p =>
+      p.id !== currentPolygonId
+    );
+
+  saveData();
+  showPolygons();
+}
+
+
+/* =========================================================
+   BATEAS
+========================================================= */
+
+function renderBateas(){
+
+  const polygon = getCurrentPolygon();
+
+  const list = document.getElementById("bateaList");
+
+  const search =
+    document.getElementById("bateaSearch")
+      .value.toLowerCase();
+
+  const bateas = polygon.bateas.filter(b =>
+    b.name.toLowerCase().includes(search)
+  );
+
+  if(!bateas.length){
+
+    list.innerHTML =
+      '<div class="card emptyMessage">'+
+      'Este polígono todavía no tiene bateas.<br><br>'+
+      'Pulsa "+ Nueva batea" para crear la primera.'+
+      '</div>';
+
+    return;
+  }
+
+  list.innerHTML = bateas.map(b=>`
+
+    <div class="bateaCard"
+         onclick="openBatea('${b.id}')">
+
+      🗺️<br>
+      ${escapeHtml(b.name)}
+
+    </div>
+
+  `).join("");
+}
+
+
+function newBatea(){
+
+  const name =
+    prompt(
+      "Nombre de la nueva batea:",
+      "Batea "+(getCurrentPolygon().bateas.length+1)
+    );
+
+  if(!name || !name.trim()) return;
+
+  const batea = {
+
+    id:uid("b"),
+
+    name:name.trim(),
+
+    rows:10,
+
+    cols:7,
+
+    cells:{},
+
+    notes:""
+
+  };
+
+  getCurrentPolygon().bateas.push(batea);
+
+  saveData();
+
+  openBatea(batea.id);
+}
+
+
+function openBatea(id){
+
+  currentBateaId = id;
+  showBatea();
+}
+
+
+function renameBatea(){
+
+  const batea = getCurrentBatea();
+
+  const name =
+    prompt("Nuevo nombre de la batea:",batea.name);
+
+  if(!name || !name.trim()) return;
+
+  batea.name = name.trim();
+
+  saveData();
+  showBatea();
+}
+
+
+function deleteBatea(){
+
+  const batea = getCurrentBatea();
+
+  if(!confirm(
+    "¿Eliminar la batea \""+
+    batea.name+
+    "\"?"
+  )) return;
+
+  const polygon = getCurrentPolygon();
+
+  polygon.bateas =
+    polygon.bateas.filter(b =>
+      b.id !== currentBateaId
+    );
+
+  saveData();
+  showBateas();
+}
+
+
+/* =========================================================
+   MAPA
+========================================================= */
+
+function renderMap(){
+
+  const batea = getCurrentBatea();
+
+  const map =
+    document.getElementById("bateaMap");
+
+  map.innerHTML = "";
+
+  const widths = [];
+
+  for(let c=0;c<batea.cols;c++){
+
+    if(c<columnWidths.length){
+      widths.push(columnWidths[c]);
+    }else{
+      widths.push(1);
+    }
+
+  }
+
+  map.style.gridTemplateColumns =
+    widths.map(w => (w*42)+"px").join(" ");
+
+  for(let r=0;r<batea.rows;r++){
+
+    for(let c=0;c<batea.cols;c++){
+
+      const key =
+        cellKey(r,c);
+
+      const cell =
+        document.createElement("div");
+
+      cell.className = "cell";
+
+      const record = batea.cells[key];
+
+      if(record){
+
+        cell.style.background =
+          record.color || "#fff";
+
+        cell.classList.add("hasData");
+
+      }else{
+
+        cell.classList.add("empty");
+
+      }
+
+      if(selectedCells.has(key)){
+        cell.classList.add("selected");
+      }
+
+      cell.textContent =
+        getCellLabel(r,c);
+
+      cell.onclick = () =>
+        toggleCell(key);
+
+      map.appendChild(cell);
+    }
+
+  }
+}
+
+
+function getCellLabel(r,c){
+
+  let letters = "";
+
+  let n = c+1;
+
+  while(n>0){
+
+    let rem = (n-1)%26;
+
+    letters =
+      String.fromCharCode(65+rem)+letters;
+
+    n =
+      Math.floor((n-1)/26);
+  }
+
+  return letters+(r+1);
+}
+
+
+function cellKey(r,c){
+
+  return r+"-"+c;
+}
+
+
+function toggleCell(key){
+
+  if(selectedCells.has(key)){
+    selectedCells.delete(key);
+  }else{
+    selectedCells.add(key);
+  }
+
+  renderMap();
+  updateSelectionInfo();
+
+  const batea = getCurrentBatea();
+
+  const record =
+    batea.cells[key];
+
+  if(record){
+
+    document.getElementById("dateInput").value =
+      record.date || "";
+
+    document.getElementById("originInput").value =
+      record.origin || "";
+
+    document.getElementById("ropesInput").value =
+      record.ropes ?? "";
+
+    selectedColor =
+      record.color || selectedColor;
+
+    renderColorPalette();
+  }
+}
+
+
+function selectAllCells(){
+
+  const batea = getCurrentBatea();
+
+  selectedCells.clear();
+
+  for(let r=0;r<batea.rows;r++){
+
+    for(let c=0;c<batea.cols;c++){
+
+      selectedCells.add(
+        cellKey(r,c)
+      );
+
+    }
+
+  }
+
+  renderMap();
+  updateSelectionInfo();
+}
+
+
+function clearSelection(){
+
+  selectedCells.clear();
+
+  renderMap();
+  updateSelectionInfo();
+}
+
+
+function updateSelectionInfo(){
+
+  const box =
+    document.getElementById("selectionInfo");
+
+  if(!selectedCells.size){
+
+    box.textContent =
+      "Ninguna celda seleccionada.";
+
+    return;
+  }
+
+  const names =
+    [...selectedCells].map(key => {
+
+      const [r,c] =
+        key.split("-").map(Number);
+
+      return getCellLabel(r,c);
+
+    });
+
+  box.innerHTML =
+    "<strong>"+selectedCells.size+
+    "</strong> celda(s) seleccionada(s): "+
+    names.join(", ");
+}
+
+
+/* =========================================================
+   CONFIGURACIÓN DEL MAPA
+========================================================= */
+
+function applyGridSize(){
+
+  const batea = getCurrentBatea();
+
+  const newRows =
+    parseInt(
+      document.getElementById("rowsInput").value
+    );
+
+  const newCols =
+    parseInt(
+      document.getElementById("colsInput").value
+    );
+
+  if(
+    !newRows ||
+    !newCols ||
+    newRows<1 ||
+    newRows>30 ||
+    newCols<1 ||
+    newCols>20
+  ){
+
+    alert(
+      "Introduce un número válido de filas y columnas."
+    );
+
+    return;
+  }
+
+  batea.rows = newRows;
+  batea.cols = newCols;
+
+  saveData();
+
+  selectedCells.clear();
+
+  renderMap();
+  renderTable();
+  updateSelectionInfo();
+}
+
+
+/* =========================================================
+   COLORES
+========================================================= */
+
+function renderColorPalette(){
+
+  const palette =
+    document.getElementById("colorPalette");
+
+  palette.innerHTML =
+    colors.map(color=>`
+
+      <div class="colorChoice
+        ${selectedColor===color?"selected":""}"
+        style="background:${color}"
+        onclick="chooseColor('${color}')">
+      </div>
+
+    `).join("");
+}
+
+
+function chooseColor(color){
+
+  selectedColor = color;
+
+  renderColorPalette();
+}
+
+
+/* =========================================================
+   DATOS DE PLANTACIÓN
+========================================================= */
+
+function applyPlantingData(){
+
+  if(!selectedCells.size){
+
+    alert("Selecciona primero una o varias celdas.");
+
+    return;
+  }
+
+  const batea = getCurrentBatea();
+
+  const date =
+    document.getElementById("dateInput").value;
+
+  const origin =
+    document.getElementById("originInput").value.trim();
+
+  const ropes =
+    document.getElementById("ropesInput").value;
+
+  if(!date){
+
+    alert("Introduce la fecha de plantado.");
+
+    return;
+  }
+
+  if(!origin){
+
+    alert("Introduce la procedencia.");
+
+    return;
+  }
+
+  for(const key of selectedCells){
+
+    batea.cells[key] = {
+
+      date:date,
+
+      origin:origin,
+
+      ropes:ropes,
+
+      color:selectedColor
+
+    };
+
+  }
+
+  saveData();
+
+  renderMap();
+  renderTable();
+  updateSelectionInfo();
+}
+
+
+function clearForm(){
+
+  document.getElementById("dateInput").value = "";
+  document.getElementById("originInput").value = "";
+  document.getElementById("ropesInput").value = "";
+
+}
+
+
+function deleteCellRecord(key){
+
+  const batea = getCurrentBatea();
+
+  if(!batea.cells[key]) return;
+
+  if(!confirm(
+    "¿Eliminar los datos de esta celda?"
+  )) return;
+
+  delete batea.cells[key];
+
+  saveData();
+
+  renderMap();
+  renderTable();
+}
+
+
+/* =========================================================
+   TABLA
+========================================================= */
+
+function renderTable(){
+
+  const batea = getCurrentBatea();
+
+  const tbody =
+    document.getElementById("plantingTable");
+
+  const entries =
+    Object.entries(batea.cells);
+
+  if(!entries.length){
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="6" class="emptyMessage">
+          Todavía no hay datos de plantación.
+        </td>
+      </tr>`;
+
+    return;
+  }
+
+  entries.sort((a,b)=>{
+
+    const [ra,ca] =
+      a[0].split("-").map(Number);
+
+    const [rb,cb] =
+      b[0].split("-").map(Number);
+
+    return ra-rb || ca-cb;
+
+  });
+
+  tbody.innerHTML =
+    entries.map(([key,record])=>{
+
+      const [r,c] =
+        key.split("-").map(Number);
+
+      const cellName =
+        getCellLabel(r,c);
+
+      return `
+
+        <tr>
+
+          <td><strong>${cellName}</strong></td>
+
+          <td>${formatDate(record.date)}</td>
+
+          <td>${escapeHtml(record.origin || "")}</td>
+
+          <td>${escapeHtml(String(record.ropes ?? ""))}</td>
+
+          <td>
+            <span class="colorDot"
+                  style="background:${record.color}">
+            </span>
+          </td>
+
+          <td>
+            <button class="danger"
+                    onclick="deleteCellRecord('${key}')">
+              Borrar
+            </button>
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+}
+
+
+function formatDate(date){
+
+  if(!date) return "";
+
+  const parts =
+    date.split("-");
+
+  if(parts.length!==3) return date;
+
+  return parts[2]+"/"+
+         parts[1]+"/"+
+         parts[0];
+}
+
+
+/* =========================================================
+   ANOTACIONES
+========================================================= */
+
+function saveNotes(){
+
+  const batea = getCurrentBatea();
+
+  batea.notes =
+    document.getElementById("notesInput").value;
+
+  saveData();
+
+  alert("Anotaciones guardadas.");
+}
+
+
+/* =========================================================
+   UTILIDADES
+========================================================= */
+
+function getCurrentPolygon(){
+
+  return data.polygons.find(
+    p => p.id === currentPolygonId
   );
 
 }
 
 
-/* =========================
-   VOLVER
-========================= */
+function getCurrentBatea(){
 
-function volver(){
+  const polygon = getCurrentPolygon();
 
-  guardar();
-
-  document.getElementById("ficha")
-    .classList.add("hidden");
-
-  document.getElementById("inicio")
-    .classList.remove("hidden");
-
-  bateaActual=null;
+  return polygon.bateas.find(
+    b => b.id === currentBateaId
+  );
 
 }
 
 
-/* =========================
-   SEGURIDAD TEXTO
-========================= */
+function escapeHtml(text){
 
-function escapar(texto){
-
-  return String(texto)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;");
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
 
 
-/* =========================
-   INICIAR
-========================= */
+/* =========================================================
+   INICIO
+========================================================= */
 
-iniciar();
+showPolygons();
 
 </script>
 
